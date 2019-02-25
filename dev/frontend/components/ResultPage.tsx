@@ -1,18 +1,43 @@
 import * as React from 'react';
 import {gql} from "apollo-boost";
-import {graphql} from "react-apollo";
+import {ChildDataProps, graphql} from "react-apollo";
 
-class ResultPageComp extends React.Component {
+type Product = {
+    id: number,
+    name: string,
+    assets: string[]
+}
+
+type DataProps = {
+    products: Product[],
+    error: string,
+    loading: boolean
+}
+
+type Props = {
+    data: DataProps
+}
+
+type ResultProps = Props & ChildDataProps;
+
+class ResultPageComp extends React.Component<ResultProps> {
     render() {
-        console.log( this );
-        return <div>DATA IS COMING...</div>
+        return <div>{
+            this.props.data.products.map(item => {
+                return <div><p>DisplayName: {item.name}</p><p>Artikel-Nummer: { item.id }</p></div>
+            })
+        }</div>
     }
 }
 
-const GET_ARTICLES_QUERY = gql`
-query ArticlesQuery {
-    articles @client
+const GET_PRODUCTS_QUERY = gql`
+query ProductList {
+    products @client {
+        name,
+        id,
+        assets
+    }
 }
 `;
 
-export const ResultPage = graphql(GET_ARTICLES_QUERY)(ResultPageComp);
+export const ResultPage = graphql<any, ResultProps>(GET_PRODUCTS_QUERY)(ResultPageComp);

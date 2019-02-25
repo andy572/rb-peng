@@ -10,7 +10,9 @@ const client = new ApolloClient({
     clientState: {
         cache: new InMemoryCache(),
         defaults: {
-            articles: []
+            products: [],
+            loading: false,
+            error: null
         },
         resolvers: {}
     },

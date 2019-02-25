@@ -3,9 +3,13 @@ import {RefObject} from "react";
 import {ApolloConsumer} from "react-apollo";
 import { gql } from "apollo-boost";
 
-const GET_ARTICLES_QUERY = gql`
-    query ArticlesQuery($id: Int!) {
-    articles(id: $id)
+const GET_PRODUCTS_QUERY = gql`
+    query ProductList($product_id: [Int]!) {
+    products(product_id: $product_id) {
+        name, 
+        id, 
+        assets
+    }
 }`;
 
 export class SearchBar extends React.Component {
@@ -25,7 +29,9 @@ export class SearchBar extends React.Component {
     }
 
     startSearch = async (client) => {
-        const result = await client.query({query: GET_ARTICLES_QUERY, variables: {id: 5}});
-        client.cache.writeData({data: {articles: result.data.articles}});
+        let str = this.inputRef.current.value.replace(/\s+/g, ' ');
+        const values = str.replace(/\s/g, ',').replace(/[,]+/g, ',').split(/,/);
+        const result = await client.query({query: GET_PRODUCTS_QUERY, variables: {product_id: values}});
+        client.cache.writeData({data: {products: result.data.products}});
     }
 }

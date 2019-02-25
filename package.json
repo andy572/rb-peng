@@ -1,0 +1,38 @@
+{
+  "name": "dev",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "webpack --progress --config webpack-production.config.js",
+    "build:frontend": "webpack --progress --config webpack-frontend.config.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "react": "^16.8.3",
+    "react-dom": "^16.8.3"
+  },
+  "devDependencies": {
+    "@types/graphql": "^14.0.7",
+    "@types/react": "^16.8.4",
+    "@types/react-dom": "^16.8.2",
+    "apollo-boost": "^0.1.28",
+    "apollo-cache-inmemory": "^1.4.3",
+    "apollo-client": "^2.4.13",
+    "apollo-link": "^1.2.8",
+    "apollo-link-http": "^1.5.11",
+    "apollo-link-state": "^0.4.2",
+    "clean-webpack-plugin": "github:johnagan/clean-webpack-plugin",
+    "copy-webpack-plugin": "^5.0.0",
+    "graphql": "^14.1.1",
+    "graphql-tag": "^2.10.1",
+    "path": "^0.12.7",
+    "react-apollo": "^2.4.1",
+    "ts-loader": "^5.3.3",
+    "typescript": "^3.3.3333",
+    "webpack": "^4.29.5",
+    "webpack-cli": "^3.2.3"
+  }
+}

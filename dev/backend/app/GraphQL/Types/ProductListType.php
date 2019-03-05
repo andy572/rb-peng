@@ -9,7 +9,7 @@
 namespace App\GraphQL\Types;
 
 
-use App\GraphQL\DataSource\ProductDataSource;
+use App\GraphQL\DataSources\ProductDataSource;
 use GraphQL\Type\Definition\ObjectType;
 use GraphQL\Type\Definition\Type;
 

@@ -1,8 +1,7 @@
 <?php
 
-namespace App\GraphQL\DataSource;
+namespace App\GraphQL\DataSources;
 
-use App\GraphQL\Exceptions\ProductSourceException;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
 use Illuminate\Support\Facades\Log;

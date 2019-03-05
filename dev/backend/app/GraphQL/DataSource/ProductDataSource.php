@@ -2,8 +2,10 @@
 
 namespace App\GraphQL\DataSource;
 
+use App\GraphQL\Exceptions\ProductSourceException;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
+use Illuminate\Support\Facades\Log;
 
 class ProductDataSource {
 
@@ -75,14 +77,14 @@ class ProductDataSource {
             $json = json_decode($content);
 
             foreach ($product_id as $id) {
-                if (isset($json->$id)) {
+                if (isset($json->{$id})) {
                     $d = $json->$id;
                     $result[$d->articleNumber] = ['id' => $d->articleNumber, 'name' => $d->displayName, 'assets' => []];
                 }
             }
 
         } catch( GuzzleException $e) {
-            $result['errors'] = $e->getMessage();
+            Log::error( $e->getMessage() );
         }
 
         return $result;

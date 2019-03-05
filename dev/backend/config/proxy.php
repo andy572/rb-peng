@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'enabled' =>  !stristr($_SERVER['SERVER_NAME'], 'mediamarkt.') && stristr($_SERVER['SERVER_ADDR'], '127.'),
+    'enabled' =>  false,
     'proxy_user' => '',
     'proxy_pass' => '',
 

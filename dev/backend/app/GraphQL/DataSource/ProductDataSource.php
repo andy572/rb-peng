@@ -63,8 +63,13 @@ class ProductDataSource {
                 $proxy['https'] = $https_proxy;
             }
 
+            $options = [];
+            if (!empty($proxy)) {
+                $options['proxy'] = $proxy;
+            }
+
             $client = new Client(); //GuzzleHttp\Client
-            $data = $client->request('GET', $url, [ $proxy ]);
+            $data = $client->request('GET', $url, $options);
 
             $content = $data->getBody()->getContents();
             $json = json_decode($content);

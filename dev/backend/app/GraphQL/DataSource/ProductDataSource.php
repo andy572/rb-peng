@@ -20,8 +20,8 @@ class ProductDataSource {
             $proxy_conf = config('proxy');
             $proxy = [];
             if (isset($proxy_conf['enabled']) && $proxy_conf['enabled']) {
-                $user = isset($proxy_conf['proxy_user']) && !empty($proxy_conf['proxy_user']) ? $proxy_conf['user'] : '';
-                $pass = isset($proxy_conf['proxy_pass']) && !empty($proxy_conf['proxy_pass']) ? $proxy_conf['pass'] : '';
+                $user = isset($proxy_conf['proxy_user']) && !empty($proxy_conf['proxy_user']) ? $proxy_conf['proxy_user'] : '';
+                $pass = isset($proxy_conf['proxy_pass']) && !empty($proxy_conf['proxy_pass']) ? $proxy_conf['proxy_pass'] : '';
 
                 $http_proxy_host  = isset($proxy_conf['http_proxy_host']) && !empty($proxy_conf['http_proxy_host']) ? $proxy_conf['http_proxy_host'] : '';
                 $http_proxy_port  = isset($proxy_conf['http_proxy_port']) && !empty($proxy_conf['http_proxy_port']) ? $proxy_conf['http_proxy_port'] : '';

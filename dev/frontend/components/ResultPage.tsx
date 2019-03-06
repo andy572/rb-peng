@@ -2,10 +2,15 @@ import * as React from 'react';
 import {gql} from "apollo-boost";
 import {ChildDataProps, graphql} from "react-apollo";
 
+type Asset = {
+    doi: string,
+    id: string
+}
+
 type Product = {
     id: number,
     name: string,
-    assets: any[]
+    assets: Asset[]
 }
 
 type DataProps = {

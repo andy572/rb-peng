@@ -8,7 +8,10 @@ const GET_PRODUCTS_QUERY = gql`
     products(product_id: $product_id) {
         name, 
         id, 
-        assets
+        assets {
+            doi,
+            id
+        }
     }
 }`;
 

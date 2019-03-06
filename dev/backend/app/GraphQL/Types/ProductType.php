@@ -19,7 +19,7 @@ class ProductType extends ObjectType {
             'fields' => [
                 'name' => Type::string(),
                 'id' => Type::int(),
-                'assets' => Type::listOf(Type::string())
+                'assets' => Type::listOf(new AssetType())
             ],
         ];
 

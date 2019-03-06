@@ -5,7 +5,7 @@ import {ChildDataProps, graphql} from "react-apollo";
 type Product = {
     id: number,
     name: string,
-    assets: string[]
+    assets: any[]
 }
 
 type DataProps = {
@@ -35,7 +35,10 @@ query ProductList {
     products @client {
         name,
         id,
-        assets
+        assets {
+            doi,
+            id
+        }
     }
 }
 `;

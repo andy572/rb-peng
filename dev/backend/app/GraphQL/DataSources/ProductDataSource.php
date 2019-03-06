@@ -78,7 +78,7 @@ class ProductDataSource {
             foreach ($product_id as $id) {
                 if (isset($json->{$id})) {
                     $d = $json->$id;
-                    $result[$d->articleNumber] = ['id' => $d->articleNumber, 'name' => $d->displayName, 'assets' => []];
+                    $result[$d->articleNumber] = ['id' => $d->articleNumber, 'name' => $d->displayName, 'assets' => $d->assets];
                 }
             }
 

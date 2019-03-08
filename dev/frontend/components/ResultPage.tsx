@@ -2,15 +2,22 @@ import * as React from 'react';
 import {gql} from "apollo-boost";
 import {ChildDataProps, graphql} from "react-apollo";
 
-type Asset = {
+type ProductAsset = {
     doi: string,
     id: string
 }
 
 type Product = {
-    id: number,
-    name: string,
-    assets: Asset[]
+    articleNumber: number,
+    catalogEntryId: number,
+    displayName: string,
+    longDescription: string,
+    onlineStatus: boolean,
+    rating: number,
+    salesPrice: number,
+    shipping: number,
+    shortDescription: string,
+    assets: ProductAsset[]
 }
 
 type DataProps = {
@@ -27,9 +34,10 @@ type ResultProps = Props & ChildDataProps;
 
 class ResultPageComp extends React.Component<ResultProps> {
     render() {
+        console.log( this.props.data);
         return <div>{
             this.props.data.products.map(item => {
-                return <div><p>DisplayName: {item.name}</p><p>Artikel-Nummer: { item.id }</p></div>
+                return <div><p>DisplayName: {item.displayName}</p><p>Artikel-Nummer: { item.articleNumber }</p></div>
             })
         }</div>
     }
@@ -38,8 +46,15 @@ class ResultPageComp extends React.Component<ResultProps> {
 const GET_PRODUCTS_QUERY = gql`
 query ProductList {
     products @client {
-        name,
-        id,
+        displayName, 
+        articleNumber,
+        catalogEntryId,
+        longDescription,
+        shortDescription,
+        onlineStatus,
+        rating,
+        salesPrice,
+        shipping,
         assets {
             doi,
             id

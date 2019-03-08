@@ -6,8 +6,23 @@ import { gql } from "apollo-boost";
 const GET_PRODUCTS_QUERY = gql`
     query ProductList($product_id: [Int]!) {
     products(product_id: $product_id) {
-        name, 
-        id, 
+        displayName, 
+        articleNumber,
+        catalogEntryId,
+        longDescription,
+        shortDescription,
+        onlineStatus,
+        rating,
+        salesPrice,
+        shipping,
+        featureGroups {
+            name,
+            value,
+            features {
+                name,
+                value
+            }
+        },
         assets {
             doi,
             id

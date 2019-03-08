@@ -17,8 +17,21 @@ class ProductType extends ObjectType {
         $config = [
             'name' => 'ProductType',
             'fields' => [
-                'name' => Type::string(),
-                'id' => Type::int(),
+                'displayName' => Type::string(),
+                'articleNumber' => Type::int(),
+                'catalogEntryId' => Type::int(),
+                'longDescription' => Type::string(),
+                'onlineStatus' => Type::boolean(),
+                'rating' => Type::float(),
+                'salesPrice' => Type::float(),
+                'shipping' => Type::float(),
+                'shortDescription' => Type::string(),
+                'featureGroups' => Type::listOf(
+                    new KeyValueType('ProductFeatureGroup', [
+                        'field' => 'features',
+                        'type' => Type::listOf(new KeyValueType('ProductFeature'))
+                    ])
+                ),
                 'assets' => Type::listOf(new AssetType())
             ],
         ];

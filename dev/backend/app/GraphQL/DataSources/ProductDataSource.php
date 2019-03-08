@@ -78,7 +78,36 @@ class ProductDataSource {
             foreach ($product_id as $id) {
                 if (isset($json->{$id})) {
                     $d = $json->$id;
-                    $result[$d->articleNumber] = ['id' => $d->articleNumber, 'name' => $d->displayName, 'assets' => $d->assets];
+
+                    $featureGroups = [];
+                    if (isset($d->featureFrame) && isset($d->featureFrame->featureGroups)) {
+                        if (!empty($d->featureFrame->featureGroups)) {
+                            foreach($d->featureFrame->featureGroups as $group) {
+                                $featureData = !empty($group->features) ? $group->features : [];
+                                $features = [];
+
+                                foreach($featureData as $key => $feature) {
+                                    $features[] = ['name' => $feature->name, 'value' => $feature->value];
+                                }
+
+                                $featureGroups[] = ['name' => $group->id, 'value' => $group->name, 'features' => $features];
+                            }
+                        }
+                    }
+
+                    $result[$d->articleNumber] = [
+                        'articleNumber' => $d->articleNumber,
+                        'displayName' => $d->displayName,
+                        'catalogEntryId' => $d->catalogEntryId,
+                        'longDescription' => $d->longDescription,
+                        'onlineStatus' => $d->onlineStatus,
+                        'rating' => $d->rating,
+                        'shortDescription' => $d->shortDescription,
+                        'salesPrice' => floatval($d->realtimeData->{1125}->salesPrice->amount),
+                        'shipping' => floatval($d->logisticClass->standard),
+                        'assets' => $d->assets,
+                        'featureGroups' => $featureGroups
+                    ];
                 }
             }
 

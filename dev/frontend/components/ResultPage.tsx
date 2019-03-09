@@ -22,7 +22,7 @@ type Product = {
 
 type DataProps = {
     products: Product[],
-    error: string,
+    search: [],
     loading: boolean
 }
 
@@ -34,12 +34,15 @@ type ResultProps = Props & ChildDataProps;
 
 class ResultPageComp extends React.Component<ResultProps> {
     render() {
-        console.log( this.props.data);
-        return <div>{
+        console.log('LOADING => ', this.props.data );
+        if (!this.props.data.products) return null;
+        return <div> {
             this.props.data.products.map(item => {
-                return <div><p>DisplayName: {item.displayName}</p><p>Artikel-Nummer: { item.articleNumber }</p></div>
+                return <div><p>DisplayName: {item.displayName}</p><p>Artikel-Nummer: {item.articleNumber}</p>
+                </div>
             })
-        }</div>
+        }
+        </div>
     }
 }
 
@@ -59,7 +62,9 @@ query ProductList {
             doi,
             id
         }
-    }
+    },
+    search @client,
+    loading @client
 }
 `;
 

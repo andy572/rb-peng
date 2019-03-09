@@ -49,7 +49,9 @@ export class SearchBar extends React.Component {
     startSearch = async (client) => {
         let str = this.inputRef.current.value.replace(/\s+/g, ' ');
         const values = str.replace(/\s/g, ',').replace(/[,]+/g, ',').split(/,/);
+
+        client.cache.writeData({data: {loading: true, products: [], search: []}});
         const result = await client.query({query: GET_PRODUCTS_QUERY, variables: {product_id: values}});
-        client.cache.writeData({data: {products: result.data.products}});
+        client.cache.writeData({data: {products: result.data.products, search: values, loading: false}});
     }
 }

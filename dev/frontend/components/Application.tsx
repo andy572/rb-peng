@@ -11,12 +11,13 @@ const client = new ApolloClient({
         cache: new InMemoryCache(),
         defaults: {
             products: [],
+            search: [],
             loading: false,
-            error: null
+            //error: null
         },
         resolvers: {}
     },
-    uri: 'http://react.local/api/graphql',
+    uri: 'http://react.local/api/graphql'
 });
 
 export class Application extends React.Component {

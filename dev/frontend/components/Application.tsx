@@ -13,7 +13,7 @@ const client = new ApolloClient({
             products: [],
             search: [],
             loading: false,
-            //error: null
+            error: false
         },
         resolvers: {}
     },

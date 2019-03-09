@@ -23,7 +23,8 @@ type Product = {
 type DataProps = {
     products: Product[],
     search: [],
-    loading: boolean
+    loading: boolean,
+    error: boolean
 }
 
 type Props = {
@@ -64,7 +65,8 @@ query ProductList {
         }
     },
     search @client,
-    loading @client
+    loading @client,
+    error @client
 }
 `;
 

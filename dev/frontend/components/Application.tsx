@@ -7,6 +7,12 @@ import { ResultPage } from "./ResultPage";
 import { SearchBar } from "./SearchBar";
 import {SearchHistory} from "./SearchHistory";
 
+// UI
+import AppBar from '@material-ui/core/AppBar';
+import Grid from "@material-ui/core/Grid/Grid";
+import Typography from "@material-ui/core/Typography/Typography";
+import Toolbar from "@material-ui/core/Toolbar/Toolbar";
+
 const client = new ApolloClient({
     clientState: {
         cache: new InMemoryCache(),
@@ -25,16 +31,22 @@ export class Application extends React.Component {
     render() {
         return <ApolloProvider client={client}>
             <React.Fragment>
-                <h1>Prototype with react, typescript and apollo</h1>
-                <div className={"flex flex-horizontal"}>
-                    <div>
+                <AppBar position={"fixed"}>
+                    <Toolbar>
+                        <Typography color={"inherit"} variant={"subtitle1"}>
+                            PENG with react, typescript and apollo
+                        </Typography>
+                    </Toolbar>
+                </AppBar>
+                <Grid direction="row" container spacing={8} xs={12} className={"main-container no-scroll"}>
+                    <Grid item xs={3}>
                         <SearchBar/>
                         <SearchHistory/>
-                    </div>
-                    <div>
+                    </Grid>
+                    <Grid item xs={9} className={"scroll-pane"}>
                         <ResultPage/>
-                    </div>
-                </div>
+                    </Grid>
+                </Grid>
             </React.Fragment>
         </ApolloProvider>
     }

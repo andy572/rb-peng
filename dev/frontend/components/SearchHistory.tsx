@@ -2,6 +2,11 @@ import * as React from "react";
 import {graphql, ChildDataProps} from "react-apollo";
 import gql from "graphql-tag";
 
+// UI
+import List from '@material-ui/core/List';
+import ListItem from "@material-ui/core/ListItem/ListItem";
+import ListItemText from "@material-ui/core/ListItemText/ListItemText";
+
 type SearchProps = {
     data: {
         search: string[]
@@ -10,11 +15,13 @@ type SearchProps = {
 
 class SearchHistoryComponent extends React.Component<SearchProps> {
     render() {
-        return <ul>
+        return <List>
             {this.props.data.search.map(value => {
-                return <li>{value}</li>
+                return <ListItem button>
+                    <ListItemText primaryTypographyProps={{variant:'body2'}} primary={value}/>
+                </ListItem>
             })}
-        </ul>;
+        </List>;
     }
 }
 

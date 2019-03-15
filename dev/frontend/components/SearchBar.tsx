@@ -4,6 +4,12 @@ import {ApolloConsumer} from "react-apollo";
 import { gql } from "apollo-boost";
 import "../helpers/StringArray";
 
+// UI
+import IconButton from "@material-ui/core/IconButton/IconButton";
+import SearchIcon from '@material-ui/icons/Search';
+import TextField from "@material-ui/core/TextField/TextField";
+import Grid from "@material-ui/core/Grid/Grid";
+
 const GET_PRODUCTS_QUERY = gql`
     query ProductList($product_id: [Int]!) {
     products(product_id: $product_id) {
@@ -42,10 +48,16 @@ export class SearchBar extends React.Component {
     render() {
         return <ApolloConsumer>
             {client => (
-                <div className="flex horizontal">
-                    <input type="text" ref={this.inputRef}/>
-                    <button onClick={() => this.startSearch(client)}>Go</button>
-                </div>
+                <Grid container direction="row" alignItems="center">
+                    <Grid item>
+                        <TextField multiline inputProps={{variant:'outlined'}} placeholder="Artikelnummer eingeben" inputRef={this.inputRef}/>
+                    </Grid>
+                    <Grid item>
+                        <IconButton aria-label="Search" onClick={() => this.startSearch(client)}>
+                            <SearchIcon />
+                        </IconButton>
+                    </Grid>
+                </Grid>
             )}
         </ApolloConsumer>
     }

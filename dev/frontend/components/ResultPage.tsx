@@ -35,10 +35,14 @@ type ResultProps = Props & ChildDataProps;
 
 class ResultPageComp extends React.Component<ResultProps> {
     render() {
-        console.log('LOADING => ', this.props.data );
-        if (!this.props.data.products) return null;
+        const {loading, products} = this.props.data;
+        if (loading) {
+            return <div>Loading...</div>;
+        }
+
+        if (!products) return null;
         return <div> {
-            this.props.data.products.map(item => {
+            products.map(item => {
                 return <div><p>DisplayName: {item.displayName}</p><p>Artikel-Nummer: {item.articleNumber}</p>
                 </div>
             })

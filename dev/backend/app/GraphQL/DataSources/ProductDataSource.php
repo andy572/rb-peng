@@ -99,10 +99,10 @@ class ProductDataSource {
                         'articleNumber' => $d->articleNumber,
                         'displayName' => $d->displayName,
                         'catalogEntryId' => $d->catalogEntryId,
-                        'longDescription' => $d->longDescription,
+                        'longDescription' => isset($d->longDescription) ? $d->longDescription : "",
                         'onlineStatus' => $d->onlineStatus,
                         'rating' => $d->rating,
-                        'shortDescription' => $d->shortDescription,
+                        'shortDescription' => isset($d->shortDescription) ? $d->shortDescription : "",
                         'salesPrice' => floatval($d->realtimeData->{1125}->salesPrice->amount),
                         'shipping' => floatval($d->logisticClass->standard),
                         'assets' => $d->assets,
@@ -112,6 +112,8 @@ class ProductDataSource {
             }
 
         } catch( GuzzleException $e) {
+            Log::error( $e->getMessage() );
+        } catch (\Exception $e) {
             Log::error( $e->getMessage() );
         }
 

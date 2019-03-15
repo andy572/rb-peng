@@ -2,6 +2,7 @@ import * as React from 'react';
 import {RefObject} from "react";
 import {ApolloConsumer} from "react-apollo";
 import { gql } from "apollo-boost";
+import "../helpers/StringArray";
 
 const GET_PRODUCTS_QUERY = gql`
     query ProductList($product_id: [Int]!) {
@@ -30,11 +31,14 @@ const GET_PRODUCTS_QUERY = gql`
     }
 }`;
 
+const GET_CACHED_SEARCH_VALUES = gql`
+    query GET_SEARCH_VALUES {
+        search @client
+    }
+`;
+
 export class SearchBar extends React.Component {
     inputRef: RefObject<HTMLInputElement> = React.createRef();
-    constructor(props) {
-        super(props);
-    }
     render() {
         return <ApolloConsumer>
             {client => (
@@ -48,12 +52,21 @@ export class SearchBar extends React.Component {
 
     startSearch = async (client) => {
         let str = this.inputRef.current.value.replace(/\s+/g, ' ');
-        const values = str.replace(/\s/g, ',').replace(/[,]+/g, ',').split(/,/);
+        const search_values = str.replace(/\s/g, ',').replace(/[,]+/g, ',').split(/,/);
 
-        client.cache.writeData({data: {loading: true, products: [], search: []}});
-        const result = await client.query({query: GET_PRODUCTS_QUERY, variables: {product_id: values}}).catch(()=>{
-            client.cache.writeData({data: {products: [], search: values, loading: false, error: true}});
+        let current_search_values = await client.query({query: GET_CACHED_SEARCH_VALUES});
+        if (!current_search_values)
+            current_search_values = [];
+        else {
+            current_search_values = current_search_values.data.search;
+        }
+
+        const updated_search_values = current_search_values.concat(search_values).unique();
+
+        client.cache.writeData({data: {loading: true, products: []}});
+        const result = await client.query({query: GET_PRODUCTS_QUERY, variables: {product_id: search_values}}).catch(()=>{
+            client.cache.writeData({data: {products: [], search: updated_search_values, loading: false, error: true}});
         });
-        client.cache.writeData({data: {products: result.data.products, search: values, loading: false, error: false}});
+        client.cache.writeData({data: {products: result.data.products, search: updated_search_values, loading: false, error: false}});
     }
 }

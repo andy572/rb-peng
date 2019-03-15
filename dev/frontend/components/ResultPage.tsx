@@ -7,6 +7,7 @@ import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 import Grid from "@material-ui/core/Grid/Grid";
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 type ProductAsset = {
     doi: string,
@@ -43,7 +44,10 @@ class ResultPageComp extends React.Component<ResultProps> {
     render() {
         const {loading, products} = this.props.data;
         if (loading) {
-            return <Typography>Loading...</Typography>;
+            return <div style={{display:'flex','align-items':'center'}}>
+                <CircularProgress color="secondary" size={24} />
+                <Typography style={{paddingLeft: "10px;"}}>Loading...</Typography>;
+            </div>
         }
 
         if (!products) return null;

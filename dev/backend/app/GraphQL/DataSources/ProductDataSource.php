@@ -95,6 +95,13 @@ class ProductDataSource {
                         }
                     }
 
+                    $assets = [];
+                    foreach ($d->assets as $asset) {
+                        $asset->checked = false;
+                        $asset->id = uniqid();
+                        $assets[] = $asset;
+                    }
+
                     $result[$d->articleNumber] = [
                         'articleNumber' => $d->articleNumber,
                         'displayName' => $d->displayName,
@@ -105,7 +112,7 @@ class ProductDataSource {
                         'shortDescription' => isset($d->shortDescription) ? $d->shortDescription : "",
                         'salesPrice' => floatval($d->realtimeData->{1125}->salesPrice->amount),
                         'shipping' => floatval($d->logisticClass->standard),
-                        'assets' => $d->assets,
+                        'assets' => $assets,
                         'featureGroups' => $featureGroups
                     ];
                 }

@@ -32,7 +32,8 @@ const GET_PRODUCTS_QUERY = gql`
         },
         assets {
             doi,
-            id
+            id,
+            checked
         }
     }
 }`;
@@ -48,7 +49,7 @@ export class SearchBar extends React.Component {
     render() {
         return <ApolloConsumer>
             {client => (
-                <Grid container direction="row" alignItems="center">
+                <Grid container direction="row" alignItems="center" alignContent={"stretch"} wrap={"nowrap"}>
                     <Grid item>
                         <TextField multiline inputProps={{variant:'outlined'}} placeholder="Artikelnummer eingeben" inputRef={this.inputRef}/>
                     </Grid>
@@ -59,7 +60,7 @@ export class SearchBar extends React.Component {
                     </Grid>
                 </Grid>
             )}
-        </ApolloConsumer>
+            </ApolloConsumer>
     }
 
     startSearch = async (client) => {
@@ -75,10 +76,10 @@ export class SearchBar extends React.Component {
 
         const updated_search_values = current_search_values.concat(search_values).unique();
 
-        client.cache.writeData({data: {loading: true, products: []}});
+        await client.cache.writeData({data: {loading: true, products: []}});
         const result = await client.query({query: GET_PRODUCTS_QUERY, variables: {product_id: search_values}}).catch(()=>{
             client.cache.writeData({data: {products: [], search: updated_search_values, loading: false, error: true}});
         });
-        client.cache.writeData({data: {products: result.data.products, search: updated_search_values, loading: false, error: false}});
+        await client.cache.writeData({data: {products: result.data.products, search: updated_search_values, loading: false, error: false}});
     }
 }

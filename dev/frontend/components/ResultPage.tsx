@@ -1,6 +1,6 @@
 import * as React from 'react';
 import {gql} from "apollo-boost";
-import {ChildDataProps, graphql} from "react-apollo";
+import {ApolloConsumer, ChildDataProps, graphql} from "react-apollo";
 
 // UI
 import Card from '@material-ui/core/Card';
@@ -8,77 +8,84 @@ import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 import Grid from "@material-ui/core/Grid/Grid";
 import CircularProgress from '@material-ui/core/CircularProgress';
+import {ResultItem} from "./ResultItem";
+import {DataProps} from "./PropDefs";
+import Checkbox from "@material-ui/core/Checkbox/Checkbox";
+import {RefObject} from "react";
 
-type ProductAsset = {
-    doi: string,
-    id: string
-}
 
-type Product = {
-    articleNumber: number,
-    catalogEntryId: number,
-    displayName: string,
-    longDescription: string,
-    onlineStatus: boolean,
-    rating: number,
-    salesPrice: number,
-    shipping: number,
-    shortDescription: string,
-    assets: ProductAsset[]
-}
-
-type DataProps = {
-    products: Product[],
-    search: [],
-    loading: boolean,
-    error: boolean
-}
-
-type Props = {
-    data: DataProps
-}
-
-type ResultProps = Props & ChildDataProps;
+type ResultProps = DataProps & ChildDataProps;
 
 class ResultPageComp extends React.Component<ResultProps> {
+    selectionRef: RefObject<HTMLInputElement> = React.createRef();
+
     render() {
         const {loading, products} = this.props.data;
+
         if (loading) {
-            return <div style={{display:'flex','align-items':'center'}}>
-                <CircularProgress color="secondary" size={24} />
-                <Typography style={{paddingLeft: "10px;"}}>Loading...</Typography>;
-            </div>
-        }
-
-        if (!products) return null;
-        return <Grid direction="column" container spacing={8}> {
-            products.map(item => {
-                return <Grid item>
-                    <Card>
-                        <CardContent>
-                            <Typography variant="h6">{item.displayName}</Typography>
-                            <Typography color={"textSecondary"} variant="subtitle2">Artikel-Nummer: {item.articleNumber}</Typography>
-                            <Grid container>
-                                {item.assets.map(asset => {
-                                    const style = {
-                                        background:'url(https://picscdn.redblue.de/doi/'+asset.doi+'/fee_325_225_png) no-repeat center/contain',
-                                        width:'105px',
-                                        height:'105px',
-                                        margin: '2px',
-                                        border: '5px solid transparent'
-                                    };
-
-                                    return <Grid item style={{background:"url(/img/psbg.png) repeat", border: "5px solid #fff"}}>
-                                        <div style={style} />
-                                    </Grid>
-                                })}
-                            </Grid>
-                        </CardContent>
-                    </Card>
+            return <Grid container direction={"row"} spacing={24} alignItems={"center"}>
+                <Grid item>
+                    <CircularProgress color="secondary" size={24} />
                 </Grid>
-            })
+                <Grid item>
+                    <Typography>Loading...</Typography>
+                </Grid>
+            </Grid>
         }
-        </Grid>
+
+        // TODO display error / products not found
+        if (!products || products.length === 0) return null;
+
+        return <ApolloConsumer>
+            {client => (
+                <Grid direction="column" container spacing={8}>
+                    <Grid item>
+                        <Grid container direction={"row"} spacing={8} alignItems={"center"}>
+                            <Grid item>
+                                <Checkbox color={"default"} inputRef={this.selectionRef} onChange={() => {return this.onSelectionChange(client)}}/>
+                            </Grid>
+                            <Grid item>
+                                <Typography variant={"caption"}>Alle auswählen</Typography>
+                            </Grid>
+                        </Grid>
+                    </Grid>
+                    {
+                        products.map(item => {
+                            return <Grid item>
+                                <Card>
+                                    <CardContent>
+                                        <Typography variant="h6">{item.displayName}</Typography>
+                                        <Typography color={"textSecondary"} variant="subtitle2">Artikel-Nummer: {item.articleNumber}</Typography>
+                                        <Grid container>
+                                            {item.assets.map(asset => {
+                                                return <ResultItem articleNumber={item.articleNumber} asset={asset}/>
+                                            })}
+                                        </Grid>
+                                    </CardContent>
+                                </Card>
+                            </Grid>
+                        })
+                    }
+                </Grid>
+            )}
+        </ApolloConsumer>
+    }
+
+    async onSelectionChange(client) {
+        const checked = this.selectionRef.current.checked;
+        const result = await client.query({query: GET_PRODUCTS_QUERY});
+
+        const updated_products = result.data.products.map((product => {
+            product.assets = product.assets.map(asset => {
+                asset.checked = checked;
+                return asset;
+            });
+
+            return product;
+        }));
+
+        client.cache.writeData({data: {products: updated_products}});
+        return true;
     }
 }
 
@@ -96,7 +103,8 @@ query ProductList {
         shipping,
         assets {
             doi,
-            id
+            id,
+            checked
         }
     },
     search @client,

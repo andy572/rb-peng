@@ -8,6 +8,7 @@ import { SearchBar } from "./SearchBar";
 import {SearchHistory} from "./SearchHistory";
 
 // UI
+import grey from '@material-ui/core/colors/grey';
 import AppBar from '@material-ui/core/AppBar';
 import Grid from "@material-ui/core/Grid/Grid";
 import Typography from "@material-ui/core/Typography/Typography";
@@ -29,21 +30,28 @@ const client = new ApolloClient({
 
 export class Application extends React.Component {
     render() {
+
         return <ApolloProvider client={client}>
             <React.Fragment>
-                <AppBar position={"fixed"}>
+                <AppBar position={"fixed"} style={{backgroundColor:grey[50],color: grey[600]}}>
                     <Toolbar>
                         <Typography color={"inherit"} variant={"subtitle1"}>
-                            PENG with react, typescript and apollo
+                            PENG with react, typescript, apollo and material-ui
                         </Typography>
                     </Toolbar>
                 </AppBar>
                 <Grid direction="row" container spacing={8} xs={12} className={"main-container no-scroll"}>
-                    <Grid item xs={3}>
-                        <SearchBar/>
-                        <SearchHistory/>
+                    <Grid item xs={2}>
+                        <Grid container direction="column" alignContent={"stretch"}>
+                            <Grid item>
+                                <SearchBar/>
+                            </Grid>
+                            <Grid item>
+                                <SearchHistory/>
+                            </Grid>
+                        </Grid>
                     </Grid>
-                    <Grid item xs={9} className={"scroll-pane"}>
+                    <Grid item xs={10} style={{overflow:'auto'}}>
                         <ResultPage/>
                     </Grid>
                 </Grid>

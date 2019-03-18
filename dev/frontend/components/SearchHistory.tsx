@@ -1,11 +1,8 @@
 import * as React from "react";
 import {graphql, ChildDataProps} from "react-apollo";
 import gql from "graphql-tag";
-
-// UI
-import List from '@material-ui/core/List';
-import ListItem from "@material-ui/core/ListItem/ListItem";
-import ListItemText from "@material-ui/core/ListItemText/ListItemText";
+import Grid from "@material-ui/core/Grid/Grid";
+import Typography from "@material-ui/core/Typography/Typography";
 
 type SearchProps = {
     data: {
@@ -15,13 +12,16 @@ type SearchProps = {
 
 class SearchHistoryComponent extends React.Component<SearchProps> {
     render() {
-        return <List>
+        return <Grid container direction={"column"}>
+            <Grid item>
+                <Typography variant={"caption"} color={"default"}>Verlauf</Typography>
+            </Grid>
             {this.props.data.search.map(value => {
-                return <ListItem button>
-                    <ListItemText primaryTypographyProps={{variant:'body2'}} primary={value}/>
-                </ListItem>
+                return <Grid item>
+                    <Typography variant={"body2"}>{value}</Typography>
+                </Grid>
             })}
-        </List>;
+        </Grid>;
     }
 }
 

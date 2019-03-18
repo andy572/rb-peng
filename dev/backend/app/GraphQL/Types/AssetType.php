@@ -24,7 +24,8 @@ class AssetType extends ObjectType {
                 'id' => Type::string(),
                 'masterFlag' => Type::string(),
                 'mediaType' => Type::string(),
-                'sortOrder' => Type::int()
+                'sortOrder' => Type::int(),
+                'checked' => Type::boolean()
             ],
         ];
 

@@ -24,6 +24,8 @@ const client = new ApolloClient({
         cache: new InMemoryCache(),
         defaults: {
             products: [],
+            dialogProduct: {},
+            isProductDialogOpen: false,
             search: [],
             loading: false,
             error: false

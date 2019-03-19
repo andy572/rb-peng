@@ -22,6 +22,8 @@ class ResultPageComp extends React.Component<ResultProps> {
     render() {
         const {loading, products} = this.props.data;
 
+        console.log( 'render' );
+
         if (loading) {
             return <Grid container direction={"row"} spacing={24} alignItems={"center"}>
                 <Grid item>

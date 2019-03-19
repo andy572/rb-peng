@@ -32,8 +32,8 @@ export class ResultItemComp extends React.Component<ResultItemProps & ChildDataP
                         <CardContent style={{padding: 5}}>
                             <Grid container direction={"column"} alignItems={"flex-start"}>
                                 <input type={"checkbox"} checked={this.props.asset.checked} ref={this.inputRef} onChange={() => {return this.onChange(client)}}/>
-                                <div style={{background:"url(/img/psbg.png) repeat", border: "5px solid #fff"}}>
-                                    <div style={style} />
+                                <div onClick={() => { return this.onItemClick(client)}} style={{background:"url(/img/psbg.png) repeat", border: "5px solid #fff"}}>
+                                    <div style={style}/>
                                 </div>
                             </Grid>
                         </CardContent>
@@ -50,7 +50,7 @@ export class ResultItemComp extends React.Component<ResultItemProps & ChildDataP
         const updated_products = result.data.products.map((product => {
             if (product.articleNumber === this.props.articleNumber) {
                 product.assets = product.assets.map(asset => {
-                    if (asset.id === this.props.asset.id && product.articleNumber === this.props.articleNumber) {
+                    if (asset.id === this.props.asset.id) {
                         asset.checked = checked;
                     }
 
@@ -63,13 +63,23 @@ export class ResultItemComp extends React.Component<ResultItemProps & ChildDataP
 
         client.cache.writeData({data: {products: updated_products}});
         return true;
-    }
+    };
+
+    onItemClick = (client) => {
+        const doi = this.props.asset.doi;
+
+        client.writeData({data: {dialogImage: doi}});
+        client.writeData({data: {isProductDialogOpen: true}});
+
+        return true;
+    };
 }
 
 const GET_CACHED_PRODUCTS_QUERY = gql`
 query ProductList {
     products @client {
         articleNumber,
+        displayName,
         assets {
             doi,
             id,

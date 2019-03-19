@@ -13,18 +13,14 @@ import AppBar from '@material-ui/core/AppBar';
 import Grid from "@material-ui/core/Grid/Grid";
 import Typography from "@material-ui/core/Typography/Typography";
 import Toolbar from "@material-ui/core/Toolbar/Toolbar";
-import Dialog from "@material-ui/core/Dialog/Dialog";
-import DialogContent from "@material-ui/core/DialogContent/DialogContent";
-import IconButton from "@material-ui/core/IconButton/IconButton";
-import CloseIcon from '@material-ui/icons/Close';
-import DialogTitle from "@material-ui/core/DialogTitle/DialogTitle";
+import {ImageDialog} from "./ImageDialog";
 
 const client = new ApolloClient({
     clientState: {
         cache: new InMemoryCache(),
         defaults: {
             products: [],
-            dialogProduct: {},
+            dialogImage: "",
             isProductDialogOpen: false,
             search: [],
             loading: false,
@@ -62,28 +58,8 @@ export class Application extends React.Component {
                         <ResultPage/>
                     </Grid>
                 </Grid>
-                <Dialog open={true} aria-labelledby="customized-dialog-title" onClose={this.onClose}>
-                    <DialogTitle id="customized-dialog-title">
-                        <Grid container direction={"row"} alignItems={"center"} style={{padding: 0, margin: 0, borderBottom: '1px solid #efefef'}}>
-                            <Grid item alignContent={"stretch"} style={{marginRight: 20}}>
-                                <Typography variant={"h6"} color={"default"}>Produktbild(er)</Typography>
-                            </Grid>
-                            <Grid item>
-                                <IconButton>
-                                    <CloseIcon/>
-                                </IconButton>
-                            </Grid>
-                        </Grid>
-                    </DialogTitle>
-                    <DialogContent>
-                        <Typography gutterBottom>Hier kommt Text</Typography>
-                    </DialogContent>
-                </Dialog>
+                <ImageDialog/>
             </React.Fragment>
         </ApolloProvider>
-    }
-
-    onClose = () => {
-
     }
 }

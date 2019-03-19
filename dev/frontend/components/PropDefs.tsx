@@ -26,3 +26,10 @@ export interface DataProps {
         error: boolean
     }
 }
+
+export interface ImageDialogProps {
+    data: {
+        isProductDialogOpen: boolean,
+        dialogImage: string
+    }
+}

@@ -23,13 +23,15 @@ export interface DataProps {
         products: Product[],
         search: string[],
         loading: boolean,
-        error: boolean
+        error: boolean,
+        imageSize: number
     }
 }
 
 export interface ImageDialogProps {
     data: {
         isProductDialogOpen: boolean,
-        dialogImage: string
+        dialogImage: string,
+        imageSize: number
     }
 }

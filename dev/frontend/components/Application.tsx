@@ -22,6 +22,7 @@ const client = new ApolloClient({
             products: [],
             dialogImage: "",
             isProductDialogOpen: false,
+            imageSize: 1,
             search: [],
             loading: false,
             error: false

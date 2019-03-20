@@ -1,6 +1,8 @@
 import * as React from 'react';
 import {gql} from "apollo-boost";
 import {ApolloConsumer, ChildDataProps, graphql} from "react-apollo";
+import {RefObject} from "react";
+import {DataProps} from "./PropDefs";
 
 // UI
 import Card from '@material-ui/core/Card';
@@ -9,10 +11,10 @@ import Typography from '@material-ui/core/Typography';
 import Grid from "@material-ui/core/Grid/Grid";
 import CircularProgress from '@material-ui/core/CircularProgress';
 import {ResultItem} from "./ResultItem";
-import {DataProps} from "./PropDefs";
 import Checkbox from "@material-ui/core/Checkbox/Checkbox";
-import {RefObject} from "react";
-
+import {RadioGroup} from '@material-ui/core';
+import {FormControlLabel} from "@material-ui/core";
+import Radio from '@material-ui/core/Radio';
 
 type ResultProps = DataProps & ChildDataProps;
 
@@ -21,8 +23,6 @@ class ResultPageComp extends React.Component<ResultProps> {
 
     render() {
         const {loading, products} = this.props.data;
-
-        console.log( 'render' );
 
         if (loading) {
             return <Grid container direction={"row"} spacing={24} alignItems={"center"}>
@@ -48,6 +48,51 @@ class ResultPageComp extends React.Component<ResultProps> {
                             </Grid>
                             <Grid item>
                                 <Typography variant={"caption"}>Alle auswählen</Typography>
+                            </Grid>
+                            <Grid item style={{flexGrow: 1}}>
+                                <Grid container direction={"row"} alignItems={"center"}>
+                                    <Grid item style={{flexGrow: 1}}/>
+                                    <Grid item>
+                                        <Typography variant={"caption"} style={{marginRight: 20}}>Größe:</Typography>
+                                    </Grid>
+                                    <Grid item>
+                                        <RadioGroup row>
+                                            <FormControlLabel
+                                                value="small"
+                                                labelPlacement={"end"}
+                                                control={
+                                                    <Radio color={"default"} checked={this.props.data.imageSize==1}/>
+                                                }
+                                                label={
+                                                    <Typography variant={"caption"}>small</Typography>
+                                                }
+                                                onChange={() => {return this.onSizeChange(client, 1)}}
+                                            />
+                                            <FormControlLabel
+                                                value="medium"
+                                                labelPlacement={"end"}
+                                                control={
+                                                    <Radio color={"default"} checked={this.props.data.imageSize==2}/>
+                                                }
+                                                label={
+                                                    <Typography align={"right"} variant={"caption"}>medium</Typography>
+                                                }
+                                                onChange={() => {return this.onSizeChange(client, 2)}}
+                                            />
+                                            <FormControlLabel
+                                                value="big"
+                                                labelPlacement={"end"}
+                                                control={
+                                                    <Radio color={"default"} checked={this.props.data.imageSize==3}/>
+                                                }
+                                                label={
+                                                    <Typography variant={"caption"}>big</Typography>
+                                                }
+                                                onChange={() => {return this.onSizeChange(client, 3)}}
+                                            />
+                                        </RadioGroup>
+                                    </Grid>
+                                </Grid>
                             </Grid>
                         </Grid>
                     </Grid>
@@ -89,6 +134,10 @@ class ResultPageComp extends React.Component<ResultProps> {
         client.cache.writeData({data: {products: updated_products}});
         return true;
     }
+
+    onSizeChange = (client, size) => {
+        client.writeData({data: {imageSize: size}})
+    }
 }
 
 const GET_PRODUCTS_QUERY = gql`
@@ -111,7 +160,8 @@ query ProductList {
     },
     search @client,
     loading @client,
-    error @client
+    error @client,
+    imageSize @client
 }
 `;
 

@@ -11,6 +11,7 @@ import Typography from "@material-ui/core/Typography/Typography";
 
 export class ProductView extends React.Component<{product:Product}> {
     render() {
+
         return <Grid item>
             <Card>
                 <CardContent>
@@ -21,9 +22,9 @@ export class ProductView extends React.Component<{product:Product}> {
                             return <AssetItemView articleNumber={this.props.product.articleNumber} asset={asset}/>
                         })}
                     </Grid>
-                    <ExpansionPanel style={{border: 0,boxShadow: 'none', marginTop: 10}}>
-                        <ExpansionPanelSummary style={{marginBottom: 0, paddingBottom: 0}}>
-                            <Typography style={{marginBottom: 0, paddingBottom: 0}}>Produktbeschreibung</Typography>
+                    <ExpansionPanel className={'expandProductViewPanel'}>
+                        <ExpansionPanelSummary>
+                            <Typography>Produktbeschreibung</Typography>
                         </ExpansionPanelSummary>
                         <ExpansionPanelDetails>
                             <Typography variant={"caption"} dangerouslySetInnerHTML={{__html:this.props.product.longDescription}}/>

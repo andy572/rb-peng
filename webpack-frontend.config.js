@@ -2,7 +2,6 @@ var CleanPlugin = require('clean-webpack-plugin');
 var path = require('path');
 
 module.exports = {
-    watch: true,
     context: __dirname,
     entry: "./dev/frontend/entry.tsx",
     output: {
@@ -37,6 +36,6 @@ module.exports = {
         hints: false
     },
     resolve: {
-        extensions: ['.tsx', '.ts', '.js', '.mjs', '.json']
+        extensions: ['.tsx', '.ts', '.js', '.mjs', '.json', '.css']
     }
 };

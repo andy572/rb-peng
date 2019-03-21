@@ -12,13 +12,13 @@ type SearchProps = {
 
 class SearchHistoryComponent extends React.Component<SearchProps> {
     render() {
-        return <Grid container direction={"column"}>
+        return <Grid container direction={"column"} style={{marginTop:15}}>
             <Grid item>
                 <Typography variant={"caption"} color={"default"}>Verlauf</Typography>
             </Grid>
             {this.props.data.search.map(value => {
                 return <Grid item>
-                    <Typography variant={"subtitle1"}>{value}</Typography>
+                    <Typography variant={"subtitle2"}>{value}</Typography>
                 </Grid>
             })}
         </Grid>;

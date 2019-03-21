@@ -27,7 +27,7 @@ class AssetItemViewComp extends React.Component<AssetItemViewProps & ChildDataPr
                         <CardContent style={{padding: 5}}>
                             <Grid container direction={"column"} alignItems={"flex-start"}>
                                 <input type={"checkbox"} checked={this.props.asset.checked} ref={this.inputRef} onChange={() => {return this.onChange(client)}}/>
-                                <div onClick={() => { return this.onItemClick(client)}} style={{background:"url(/img/psbg.png) repeat", border: "5px solid #fff"}}>
+                                <div onClick={() => { return this.onItemClick(client)}} style={{cursor:'pointer',background:"url(/img/psbg.png) repeat", border: "5px solid #fff"}}>
                                     <div style={style}/>
                                 </div>
                             </Grid>

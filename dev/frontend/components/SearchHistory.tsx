@@ -18,7 +18,7 @@ class SearchHistoryComponent extends React.Component<SearchProps> {
             </Grid>
             {this.props.data.search.map(value => {
                 return <Grid item>
-                    <Typography variant={"body2"}>{value}</Typography>
+                    <Typography variant={"subtitle1"}>{value}</Typography>
                 </Grid>
             })}
         </Grid>;

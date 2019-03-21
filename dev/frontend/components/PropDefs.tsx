@@ -28,10 +28,19 @@ export interface DataProps {
     }
 }
 
+export interface AssetItemViewProps {
+    asset: ProductAsset,
+    articleNumber: number
+}
+
 export interface ImageDialogProps {
     data: {
         isProductDialogOpen: boolean,
         dialogImage: string,
         imageSize: number
     }
+}
+
+export interface ClientProp {
+    client: any
 }

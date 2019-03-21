@@ -15,6 +15,9 @@ import Checkbox from "@material-ui/core/Checkbox/Checkbox";
 import {RadioGroup} from '@material-ui/core';
 import {FormControlLabel} from "@material-ui/core";
 import Radio from '@material-ui/core/Radio';
+import ExpansionPanelSummary from "@material-ui/core/ExpansionPanelSummary/ExpansionPanelSummary";
+import ExpansionPanelDetails from "@material-ui/core/ExpansionPanelDetails/ExpansionPanelDetails";
+import ExpansionPanel from "@material-ui/core/ExpansionPanel/ExpansionPanel";
 
 type ResultProps = DataProps & ChildDataProps;
 
@@ -108,6 +111,14 @@ class ResultPageComp extends React.Component<ResultProps> {
                                                 return <ResultItem articleNumber={item.articleNumber} asset={asset}/>
                                             })}
                                         </Grid>
+                                        <ExpansionPanel style={{border: 0,boxShadow: 'none', marginTop: 10}}>
+                                            <ExpansionPanelSummary style={{marginBottom: 0, paddingBottom: 0}}>
+                                                <Typography style={{marginBottom: 0, paddingBottom: 0}}>Produktbeschreibung</Typography>
+                                            </ExpansionPanelSummary>
+                                            <ExpansionPanelDetails>
+                                                <Typography variant={"caption"} dangerouslySetInnerHTML={{__html:item.longDescription}}/>
+                                            </ExpansionPanelDetails>
+                                        </ExpansionPanel>
                                     </CardContent>
                                 </Card>
                             </Grid>

@@ -102,11 +102,15 @@ class ProductDataSource {
                         $assets[] = $asset;
                     }
 
+                    $description = isset($d->longDescription) ? $d->longDescription : "";
+                    $description = str_replace('<lt/>', '<', $description);
+                    $description = str_replace('<gt/>', '>', $description);
+
                     $result[$d->articleNumber] = [
                         'articleNumber' => $d->articleNumber,
                         'displayName' => $d->displayName,
                         'catalogEntryId' => $d->catalogEntryId,
-                        'longDescription' => isset($d->longDescription) ? $d->longDescription : "",
+                        'longDescription' => $description,
                         'onlineStatus' => $d->onlineStatus,
                         'rating' => $d->rating,
                         'shortDescription' => isset($d->shortDescription) ? $d->shortDescription : "",

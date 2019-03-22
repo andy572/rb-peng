@@ -46,6 +46,10 @@ const GET_CACHED_SEARCH_VALUES = gql`
 
 export class SearchBar extends React.Component {
     inputRef: RefObject<HTMLInputElement> = React.createRef();
+    constructor(props) {
+        super(props);
+    }
+
     render() {
         return <ApolloConsumer>
             {client => (
@@ -73,8 +77,6 @@ export class SearchBar extends React.Component {
         else {
             current_search_values = current_search_values.data.search;
         }
-
-        console.log( this.inputRef );
 
         const updated_search_values = current_search_values.concat(search_values).unique();
         this.inputRef.current.value = "";

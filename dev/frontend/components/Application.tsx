@@ -31,7 +31,7 @@ const client = new ApolloClient({
         },
         resolvers: {}
     },
-    uri: 'http://react.local/api/graphql'
+    uri: '/api/graphql'
 });
 
 export class Application extends React.Component {
@@ -57,7 +57,7 @@ export class Application extends React.Component {
                             </Grid>
                         </Grid>
                     </Grid>
-                    <Grid item xs={10} style={{overflow:'auto'}}>
+                    <Grid item xs={10} style={{overflow:'auto', height: '88vh'}}>
                         <ResultPage/>
                     </Grid>
                 </Grid>

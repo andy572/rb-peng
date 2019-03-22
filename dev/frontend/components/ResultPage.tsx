@@ -6,10 +6,24 @@ import {ResultProps} from "./PropDefs";
 // UI
 import Typography from '@material-ui/core/Typography';
 import Grid from "@material-ui/core/Grid";
-import {CircularProgress} from '@material-ui/core';
+import {CircularProgress, Paper} from '@material-ui/core';
 import {ResultSelectionView} from "./ResultSelectionView";
 import {ResultSizeSelectionView} from "./ResultSizeSelectionView";
 import {ProductView} from "./ProductView";
+
+const styles = {
+    root: {
+        padding: 15
+    },
+    error: {
+        padding: 15,
+        backgroundColor: '#FFEBEE',
+        border: '1px solid #EF9A9A'
+    },
+    font: {
+        color: '#D32F2F'
+    }
+};
 
 class ResultPageComp extends React.Component<ResultProps> {
     render() {
@@ -28,9 +42,9 @@ class ResultPageComp extends React.Component<ResultProps> {
 
         if (!products || products.length === 0) {
             if (search.length == 0) {
-                return <Typography>Geben Sie eine oder mehrere Artikelnummern ein, um zu beginnen</Typography>
+                return <Paper style={styles.root}><Typography>Geben Sie eine oder mehrere Artikelnummern ein, um zu beginnen</Typography></Paper>
             } else {
-                return <Typography>Es konnten keine Produkte gefunden werden</Typography>
+                return <Paper style={styles.error}><Typography style={styles.font}>Es konnten keine Produkte gefunden werden</Typography></Paper>
             }
         }
 

@@ -1,3 +1,4 @@
+import {ChildDataProps} from "react-apollo";
 
 export type ProductAsset = {
     doi: string,
@@ -18,7 +19,7 @@ export type Product = {
     assets: ProductAsset[]
 }
 
-export interface DataProps {
+export type ResultProps = {
     data: {
         products: Product[],
         search: string[],
@@ -26,21 +27,27 @@ export interface DataProps {
         error: boolean,
         imageSize: number
     }
-}
+} & ChildDataProps;
 
-export interface AssetItemViewProps {
+export type AssetItemViewProps = {
     asset: ProductAsset,
     articleNumber: number
-}
+} & ChildDataProps;
 
-export interface ImageDialogProps {
+export type ImageDialogProps = {
     data: {
         isProductDialogOpen: boolean,
         dialogImage: string,
         imageSize: number
     }
-}
+} & ChildDataProps
 
-export interface ClientProp {
+export type SearchHistoryProps = {
+    data: {
+        search: string[]
+    }
+} & ChildDataProps;
+
+export type ClientProp = {
     client: any
-}
+} & ChildDataProps;

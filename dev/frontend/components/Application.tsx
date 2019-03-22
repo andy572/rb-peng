@@ -8,12 +8,14 @@ import { SearchBar } from "./SearchBar";
 import {SearchHistory} from "./SearchHistory";
 
 // UI
-import grey from '@material-ui/core/colors/grey';
+import {grey} from '@material-ui/core/colors';
 import AppBar from '@material-ui/core/AppBar';
-import Grid from "@material-ui/core/Grid/Grid";
-import Typography from "@material-ui/core/Typography/Typography";
-import Toolbar from "@material-ui/core/Toolbar/Toolbar";
+import Grid from "@material-ui/core/Grid";
+import Typography from "@material-ui/core/Typography";
+import Toolbar from "@material-ui/core/Toolbar";
 import {ImageDialog} from "./ImageDialog";
+
+import "../styles/peng.scss";
 
 const client = new ApolloClient({
     clientState: {

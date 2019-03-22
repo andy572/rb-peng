@@ -1,12 +1,16 @@
 import * as React from "react";
 import Dialog from "@material-ui/core/Dialog";
-import {DialogContent, DialogTitle, Grid, IconButton, Typography} from "@material-ui/core";
+import DialogContent from "@material-ui/core/DialogContent";
+import DialogTitle from "@material-ui/core/DialogTitle";
+import Grid from "@material-ui/core/Grid";
+import IconButton from "@material-ui/core/IconButton";
+import Typography from "@material-ui/core/Typography";
 import CloseIcon from '@material-ui/icons/Close';
 import {gql} from "apollo-boost";
-import {ApolloConsumer, ChildDataProps, graphql} from "react-apollo";
+import {ApolloConsumer, graphql} from "react-apollo";
 import {ImageDialogProps} from "./PropDefs";
 
-class ImageDialogComponent extends React.Component<ImageDialogProps & ChildDataProps> {
+class ImageDialogComponent extends React.Component<ImageDialogProps> {
     render() {
         return <ApolloConsumer>
             {client => (
@@ -68,4 +72,4 @@ query GET_DIALOGOPEN_QUERY {
 }
 `;
 
-export const ImageDialog = graphql<any, ImageDialogProps & ChildDataProps>(GET_DIALOGOPEN_QUERY)(ImageDialogComponent);
+export const ImageDialog = graphql<any, ImageDialogProps>(GET_DIALOGOPEN_QUERY)(ImageDialogComponent);

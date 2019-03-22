@@ -1,15 +1,15 @@
 import * as React from 'react';
 
 // UI
-import Grid from "@material-ui/core/Grid/Grid";
-import Card from "@material-ui/core/Card/Card";
-import CardContent from "@material-ui/core/CardContent/CardContent";
+import Grid from "@material-ui/core/Grid";
+import Card from "@material-ui/core/Card";
+import CardContent from "@material-ui/core/CardContent";
 import {AssetItemViewProps} from "./PropDefs";
 import {RefObject} from "react";
-import {ApolloConsumer, ChildDataProps, graphql} from "react-apollo";
+import {ApolloConsumer, graphql} from "react-apollo";
 import {gql} from "apollo-boost";
 
-class AssetItemViewComp extends React.Component<AssetItemViewProps & ChildDataProps> {
+class AssetItemViewComp extends React.Component<AssetItemViewProps> {
     inputRef: RefObject<HTMLInputElement> = React.createRef();
     render() {
         const style = {
@@ -84,4 +84,4 @@ query ProductList {
 }
 `;
 
-export const AssetItemView = graphql<any, AssetItemViewProps & ChildDataProps>(GET_CACHED_PRODUCTS_QUERY)(AssetItemViewComp);
+export const AssetItemView = graphql<any, AssetItemViewProps>(GET_CACHED_PRODUCTS_QUERY)(AssetItemViewComp);

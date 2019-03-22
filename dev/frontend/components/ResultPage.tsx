@@ -1,21 +1,19 @@
 import * as React from 'react';
 import {gql} from "apollo-boost";
-import {ApolloConsumer, ChildDataProps, graphql} from "react-apollo";
-import {DataProps} from "./PropDefs";
+import {ApolloConsumer, graphql} from "react-apollo";
+import {ResultProps} from "./PropDefs";
 
 // UI
 import Typography from '@material-ui/core/Typography';
-import Grid from "@material-ui/core/Grid/Grid";
-import CircularProgress from '@material-ui/core/CircularProgress';
+import Grid from "@material-ui/core/Grid";
+import {CircularProgress} from '@material-ui/core';
 import {ResultSelectionView} from "./ResultSelectionView";
 import {ResultSizeSelectionView} from "./ResultSizeSelectionView";
 import {ProductView} from "./ProductView";
 
-type ResultProps = DataProps & ChildDataProps;
-
 class ResultPageComp extends React.Component<ResultProps> {
     render() {
-        const {loading, products} = this.props.data;
+        const {loading, products, search} = this.props.data;
 
         if (loading) {
             return <Grid container direction={"row"} spacing={24} alignItems={"center"}>
@@ -28,8 +26,15 @@ class ResultPageComp extends React.Component<ResultProps> {
             </Grid>
         }
 
-        // TODO display error / products not found
-        if (!products || products.length === 0) return null;
+        if (!products || products.length === 0) {
+            if (search.length == 0) {
+                return <Typography>Geben Sie eine oder mehrere Artikelnummern ein, um zu beginnen</Typography>
+            } else {
+                return <Typography>Es konnten keine Produkte gefunden werden</Typography>
+            }
+        }
+
+        // TODO display error: article number(s) where not found
 
         return <ApolloConsumer>
             {client => (
@@ -40,7 +45,7 @@ class ResultPageComp extends React.Component<ResultProps> {
                             <Grid item style={{flexGrow: 1}}>
                                 <Grid container direction={"row"} alignItems={"center"}>
                                     <Grid item style={{flexGrow: 1}}/>
-                                    <ResultSizeSelectionView client={client} imageSize={this.props.data.imageSize}/>
+                                    <ResultSizeSelectionView data={null} client={client} imageSize={this.props.data.imageSize}/>
                                 </Grid>
                             </Grid>
                         </Grid>

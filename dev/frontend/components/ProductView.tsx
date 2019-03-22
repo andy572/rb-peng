@@ -1,13 +1,13 @@
-import Grid from "@material-ui/core/Grid/Grid";
+import Grid from "@material-ui/core/Grid";
 import * as React from "react";
-import Card from "@material-ui/core/Card/Card";
-import CardContent from "@material-ui/core/CardContent/CardContent";
+import Card from "@material-ui/core/Card";
+import CardContent from "@material-ui/core/CardContent";
 import {AssetItemView} from "./AssetItemView";
-import ExpansionPanel from "@material-ui/core/ExpansionPanel/ExpansionPanel";
-import ExpansionPanelSummary from "@material-ui/core/ExpansionPanelSummary/ExpansionPanelSummary";
-import ExpansionPanelDetails from "@material-ui/core/ExpansionPanelDetails/ExpansionPanelDetails";
+import ExpansionPanel from "@material-ui/core/ExpansionPanel";
+import ExpansionPanelSummary from "@material-ui/core/ExpansionPanelSummary";
+import ExpansionPanelDetails from "@material-ui/core/ExpansionPanelDetails";
 import {Product} from "./PropDefs";
-import Typography from "@material-ui/core/Typography/Typography";
+import Typography from "@material-ui/core/Typography";
 
 export class ProductView extends React.Component<{product:Product}> {
     render() {
@@ -22,8 +22,8 @@ export class ProductView extends React.Component<{product:Product}> {
                             return <AssetItemView articleNumber={this.props.product.articleNumber} asset={asset}/>
                         })}
                     </Grid>
-                    <ExpansionPanel className={'expandProductViewPanel'}>
-                        <ExpansionPanelSummary>
+                    <ExpansionPanel className={'expansionProductViewPanel'}>
+                        <ExpansionPanelSummary className={"expansionProductViewSummary"}>
                             <Typography>Produktbeschreibung</Typography>
                         </ExpansionPanelSummary>
                         <ExpansionPanelDetails>

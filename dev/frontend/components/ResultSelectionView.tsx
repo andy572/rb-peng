@@ -1,13 +1,13 @@
 import * as React from "react";
-import Grid from "@material-ui/core/Grid/Grid";
-import Checkbox from "@material-ui/core/Checkbox/Checkbox";
-import Typography from "@material-ui/core/Typography/Typography";
+import Grid from "@material-ui/core/Grid";
+import Checkbox from "@material-ui/core/Checkbox";
+import Typography from "@material-ui/core/Typography";
 import {RefObject} from "react";
 import {gql} from "apollo-boost";
-import {ChildDataProps, graphql} from "react-apollo";
+import {graphql} from "react-apollo";
 import {ClientProp} from "./PropDefs";
 
-class ResultSelectionViewComp extends React.Component<ClientProp & ChildDataProps> {
+class ResultSelectionViewComp extends React.Component<ClientProp> {
     private selectionRef: RefObject<HTMLInputElement> = React.createRef();
 
     render() {
@@ -65,4 +65,4 @@ query ProductList {
 }
 `;
 
-export const ResultSelectionView = graphql<any, ClientProp & ChildDataProps>(GET_PRODUCTS_QUERY)(ResultSelectionViewComp);
+export const ResultSelectionView = graphql<any, ClientProp>(GET_PRODUCTS_QUERY)(ResultSelectionViewComp);

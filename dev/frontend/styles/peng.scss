@@ -1,0 +1,13 @@
+.expansionProductViewPanel {
+    margin-top: 15px !important;
+    box-shadow: none !important;
+    border-radius: 0 !important;
+    border: 0 none !important;
+    &:before {
+        background-color: #ddd !important;
+        opacity: 1 !important;
+    }
+    .expansionProductViewSummary {
+        min-height: 48px !important;
+    }
+}

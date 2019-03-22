@@ -5,10 +5,10 @@ import { gql } from "apollo-boost";
 import "../helpers/StringArray";
 
 // UI
-import IconButton from "@material-ui/core/IconButton/IconButton";
+import IconButton from "@material-ui/core/IconButton";
 import SearchIcon from '@material-ui/icons/Search';
-import TextField from "@material-ui/core/TextField/TextField";
-import Grid from "@material-ui/core/Grid/Grid";
+import TextField from "@material-ui/core/TextField";
+import Grid from "@material-ui/core/Grid";
 
 const GET_PRODUCTS_QUERY = gql`
     query ProductList($product_id: [Int]!) {
@@ -50,8 +50,8 @@ export class SearchBar extends React.Component {
         return <ApolloConsumer>
             {client => (
                 <Grid container direction="row" alignItems="center" alignContent={"stretch"} wrap={"nowrap"}>
-                    <Grid item>
-                        <TextField multiline inputProps={{variant:'outlined'}} placeholder="Artikelnummer eingeben" inputRef={this.inputRef}/>
+                    <Grid item style={{flexGrow: 1}}>
+                        <TextField fullWidth multiline inputProps={{variant:'outlined', style:{fontSize:14}}} placeholder="Artikelnummer eingeben" inputRef={this.inputRef}/>
                     </Grid>
                     <Grid item>
                         <IconButton aria-label="Search" onClick={() => this.startSearch(client)}>
@@ -74,7 +74,10 @@ export class SearchBar extends React.Component {
             current_search_values = current_search_values.data.search;
         }
 
+        console.log( this.inputRef );
+
         const updated_search_values = current_search_values.concat(search_values).unique();
+        this.inputRef.current.value = "";
 
         await client.cache.writeData({data: {loading: true, products: []}});
         const result = await client.query({query: GET_PRODUCTS_QUERY, variables: {product_id: search_values}}).catch(()=>{

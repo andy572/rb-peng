@@ -20,6 +20,19 @@ module.exports = {
                 test: /\.mjs$/,
                 include: /node_modules/,
                 type: 'javascript/auto'
+            },
+            {
+                test: /\.scss$/,
+                use: [{
+                    loader: "style-loader"
+                }, {
+                    loader: "css-loader"
+                }, {
+                    loader: "sass-loader",
+                    options: {
+                        includePaths: [path.resolve("dev/frontend/styles")]
+                    }
+                }]
             }
         ]
     },

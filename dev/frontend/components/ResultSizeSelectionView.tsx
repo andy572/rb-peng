@@ -1,10 +1,10 @@
-import Grid from "@material-ui/core/Grid/Grid";
-import Typography from "@material-ui/core/Typography/Typography";
+import Grid from "@material-ui/core/Grid";
+import Typography from "@material-ui/core/Typography";
 import * as React from "react";
-import RadioGroup from "@material-ui/core/RadioGroup/RadioGroup";
-import FormControlLabel from "@material-ui/core/FormControlLabel/FormControlLabel";
+import RadioGroup from "@material-ui/core/RadioGroup";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
 import {ClientProp} from "./PropDefs";
-import Radio from "@material-ui/core/Radio/Radio";
+import Radio from "@material-ui/core/Radio";
 
 export class ResultSizeSelectionView extends React.Component<ClientProp & {imageSize: number}> {
     render() {

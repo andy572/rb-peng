@@ -1,17 +1,15 @@
 import * as React from "react";
-import {graphql, ChildDataProps} from "react-apollo";
+import {graphql} from "react-apollo";
 import gql from "graphql-tag";
-import Grid from "@material-ui/core/Grid/Grid";
-import Typography from "@material-ui/core/Typography/Typography";
+import Grid from "@material-ui/core/Grid";
+import Typography from "@material-ui/core/Typography";
+import {SearchHistoryProps} from "./PropDefs";
 
-type SearchProps = {
-    data: {
-        search: string[]
-    }
-} & ChildDataProps;
 
-class SearchHistoryComponent extends React.Component<SearchProps> {
+class SearchHistoryComponent extends React.Component<SearchHistoryProps> {
     render() {
+        if (this.props.data.search.length == 0) return null;
+
         return <Grid container direction={"column"} style={{marginTop:15}}>
             <Grid item>
                 <Typography variant={"caption"} color={"default"}>Verlauf</Typography>
@@ -31,4 +29,4 @@ const GET_SEARCH_VALUES = gql`
     }
 `;
 
-export const SearchHistory = graphql<any, SearchProps>(GET_SEARCH_VALUES)(SearchHistoryComponent);
+export const SearchHistory = graphql<any, SearchHistoryProps>(GET_SEARCH_VALUES)(SearchHistoryComponent);

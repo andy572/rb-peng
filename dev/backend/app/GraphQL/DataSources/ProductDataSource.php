@@ -7,6 +7,7 @@ use GuzzleHttp\Exception\GuzzleException;
 use Illuminate\Support\Facades\Log;
 
 class ProductDataSource {
+    static $proxy = [];
 
     public static function resolve(array $product_id) {
         $ids = implode(',', $product_id);
@@ -18,6 +19,135 @@ class ProductDataSource {
 
         $result = [];
         try {
+            $proxy = self::getProxy();
+            $options = [];
+            if (!empty($proxy)) {
+                $options['proxy'] = $proxy;
+            }
+
+            $client = new Client(); //GuzzleHttp\Client
+            $data = $client->request('GET', $url, $options);
+
+            $content = $data->getBody()->getContents();
+            $json = json_decode($content);
+
+            foreach ($product_id as $id) {
+                if (isset($json->{$id})) {
+                    $d = $json->$id;
+
+                    $featureGroups = [];
+                    if (isset($d->featureFrame) && isset($d->featureFrame->featureGroups)) {
+                        if (!empty($d->featureFrame->featureGroups)) {
+                            foreach($d->featureFrame->featureGroups as $group) {
+                                $featureData = !empty($group->features) ? $group->features : [];
+                                $features = [];
+
+                                foreach($featureData as $key => $feature) {
+                                    $features[] = ['name' => $feature->name, 'value' => $feature->value];
+                                }
+
+                                $featureGroups[] = ['name' => $group->id, 'value' => $group->name, 'features' => $features];
+                            }
+                        }
+                    }
+
+                    $assets = [];
+                    foreach ($d->assets as $asset) {
+                        $asset->checked = false;
+                        $asset->id = uniqid();
+
+                        $mediaType = "unknown";
+                        $extension = "";
+                        if (stristr($asset->mediaType, 'png')) {
+                            $mediaType = "image/png";
+                            $extension = "png";
+                        }
+                        if (stristr($asset->mediaType, 'jpeg')) {
+                            $mediaType = "image/jpeg";
+                            $extension = "jpg";
+                        }
+                        if (stristr($asset->mediaType, 'pdf')) {
+                            $mediaType = "application/pdf";
+                            $extension = "pdf";
+                        }
+
+                        if (!empty($extension)) {
+                            if ($extension === "pdf") {
+                                $asset->expectedSize = self::getFileSize('https://picscdn.redblue.de/doi/'.$asset->doi);
+                            } else {
+                                $asset->expectedSize = self::getFileSize('https://picscdn.redblue.de/doi/'.$asset->doi.'/fee_786_587_png');
+                            }
+                        }
+
+                        $asset->mediaType = $mediaType;
+                        $asset->extension = $extension;
+
+                        $assets[] = $asset;
+                    }
+
+                    $description = isset($d->longDescription) ? $d->longDescription : "";
+                    $description = str_replace('<lt/>', '<', $description);
+                    $description = str_replace('<gt/>', '>', $description);
+
+                    $result[$d->articleNumber] = [
+                        'articleNumber' => $d->articleNumber,
+                        'displayName' => $d->displayName,
+                        'catalogEntryId' => $d->catalogEntryId,
+                        'longDescription' => $description,
+                        'onlineStatus' => $d->onlineStatus,
+                        'rating' => $d->rating,
+                        'shortDescription' => isset($d->shortDescription) ? $d->shortDescription : "",
+                        'salesPrice' => floatval($d->realtimeData->{1125}->salesPrice->amount),
+                        'shipping' => floatval($d->logisticClass->standard),
+                        'assets' => $assets,
+                        'featureGroups' => $featureGroups
+                    ];
+                }
+            }
+
+        } catch( GuzzleException $e) {
+            Log::error( $e->getMessage() );
+        } catch (\Exception $e) {
+            Log::error( $e->getMessage() );
+        }
+
+        return $result;
+    }
+
+    private static function getFileSize($url) {
+        $proxy = self::getProxy();
+        $options = [];
+        if (!empty($proxy)) {
+            $options['proxy'] = $proxy;
+        }
+
+        try {
+            $client = new Client(); //GuzzleHttp\Client
+            $data = $client->request('GET', $url, $options);
+
+            $content = $data->getBody()->getContents();
+            $fileSize = $data->getBody()->getSize();
+
+            if (empty($fileSize) && !empty($content)) {
+                $tmp_name = tempnam(sys_get_temp_dir(), uniqid());
+                $handle = fopen($tmp_name, "wb");
+                fwrite($handle, $content);
+                fclose($handle);
+                $fileSize = filesize($tmp_name);
+                unlink($tmp_name);
+                $content = null; // free resource
+            }
+
+            return $fileSize;
+        } catch (GuzzleException $e) {
+            Log::error( $e->getMessage() );
+        } catch (\Exception $e) {
+            Log::error( $e->getMessage() );
+        }
+    }
+
+    private static function getProxy() {
+        if (self::$proxy === null) {
             $proxy_conf = config('proxy');
             $proxy = [];
             if (isset($proxy_conf['enabled']) && $proxy_conf['enabled']) {
@@ -62,73 +192,12 @@ class ProductDataSource {
 
                 $proxy['http']  = $http_proxy;
                 $proxy['https'] = $https_proxy;
+
+                self::$proxy = $proxy;
             }
-
-            $options = [];
-            if (!empty($proxy)) {
-                $options['proxy'] = $proxy;
-            }
-
-            $client = new Client(); //GuzzleHttp\Client
-            $data = $client->request('GET', $url, $options);
-
-            $content = $data->getBody()->getContents();
-            $json = json_decode($content);
-
-            foreach ($product_id as $id) {
-                if (isset($json->{$id})) {
-                    $d = $json->$id;
-
-                    $featureGroups = [];
-                    if (isset($d->featureFrame) && isset($d->featureFrame->featureGroups)) {
-                        if (!empty($d->featureFrame->featureGroups)) {
-                            foreach($d->featureFrame->featureGroups as $group) {
-                                $featureData = !empty($group->features) ? $group->features : [];
-                                $features = [];
-
-                                foreach($featureData as $key => $feature) {
-                                    $features[] = ['name' => $feature->name, 'value' => $feature->value];
-                                }
-
-                                $featureGroups[] = ['name' => $group->id, 'value' => $group->name, 'features' => $features];
-                            }
-                        }
-                    }
-
-                    $assets = [];
-                    foreach ($d->assets as $asset) {
-                        $asset->checked = false;
-                        $asset->id = uniqid();
-                        $assets[] = $asset;
-                    }
-
-                    $description = isset($d->longDescription) ? $d->longDescription : "";
-                    $description = str_replace('<lt/>', '<', $description);
-                    $description = str_replace('<gt/>', '>', $description);
-
-                    $result[$d->articleNumber] = [
-                        'articleNumber' => $d->articleNumber,
-                        'displayName' => $d->displayName,
-                        'catalogEntryId' => $d->catalogEntryId,
-                        'longDescription' => $description,
-                        'onlineStatus' => $d->onlineStatus,
-                        'rating' => $d->rating,
-                        'shortDescription' => isset($d->shortDescription) ? $d->shortDescription : "",
-                        'salesPrice' => floatval($d->realtimeData->{1125}->salesPrice->amount),
-                        'shipping' => floatval($d->logisticClass->standard),
-                        'assets' => $assets,
-                        'featureGroups' => $featureGroups
-                    ];
-                }
-            }
-
-        } catch( GuzzleException $e) {
-            Log::error( $e->getMessage() );
-        } catch (\Exception $e) {
-            Log::error( $e->getMessage() );
         }
 
-        return $result;
+        return self::$proxy;
     }
 
     // don't call "new" on resolver

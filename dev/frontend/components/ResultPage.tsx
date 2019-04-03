@@ -5,18 +5,15 @@ import {ResultProps} from "./PropDefs";
 
 // UI
 import Typography from '@material-ui/core/Typography';
-import Grid from "@material-ui/core/Grid";
-import {CircularProgress, Paper} from '@material-ui/core';
+import {CircularProgress} from '@material-ui/core';
 import {ResultSelectionView} from "./ResultSelectionView";
 import {ResultSizeSelectionView} from "./ResultSizeSelectionView";
 import {ProductView} from "./ProductView";
+import {FlexContainer} from "./core/FlexContainer";
+import {Card} from "./core/Card";
 
 const styles = {
-    root: {
-        padding: 15
-    },
     error: {
-        padding: 15,
         backgroundColor: '#FFEBEE',
         border: '1px solid #EF9A9A'
     },
@@ -30,21 +27,21 @@ class ResultPageComp extends React.Component<ResultProps> {
         const {loading, products, search} = this.props.data;
 
         if (loading) {
-            return <Grid container direction={"row"} spacing={24} alignItems={"center"}>
-                <Grid item>
-                    <CircularProgress color="secondary" size={24} />
-                </Grid>
-                <Grid item>
-                    <Typography>Loading...</Typography>
-                </Grid>
-            </Grid>
+            return <Card className={"rb-flex rb-flex-grow"}>
+                <CircularProgress color="secondary" size={24} />
+                <Typography>Loading...</Typography>
+            </Card>
         }
 
         if (!products || products.length === 0) {
             if (search.length == 0) {
-                return <Paper style={styles.root}><Typography>Geben Sie eine oder mehrere Artikelnummern ein, um zu beginnen</Typography></Paper>
+                return <Card className={"rb-flex rb-flex-grow"}>
+                    <Typography>Geben Sie eine oder mehrere Artikelnummern ein, um zu beginnen</Typography>
+                </Card>
             } else {
-                return <Paper style={styles.error}><Typography style={styles.font}>Es konnten keine Produkte gefunden werden</Typography></Paper>
+                return <Card style={styles.error} className={"rb-flex rb-flex-grow"}>
+                    <Typography style={styles.font}>Es konnten keine Produkte gefunden werden</Typography>
+                </Card>
             }
         }
 
@@ -52,24 +49,19 @@ class ResultPageComp extends React.Component<ResultProps> {
 
         return <ApolloConsumer>
             {client => (
-                <Grid direction="column" container spacing={8}>
-                    <Grid item>
-                        <Grid container direction={"row"} spacing={8} alignItems={"center"}>
-                            <ResultSelectionView client={client}/>
-                            <Grid item style={{flexGrow: 1}}>
-                                <Grid container direction={"row"} alignItems={"center"}>
-                                    <Grid item style={{flexGrow: 1}}/>
-                                    <ResultSizeSelectionView data={null} client={client} imageSize={this.props.data.imageSize}/>
-                                </Grid>
-                            </Grid>
-                        </Grid>
-                    </Grid>
+                <FlexContainer direction="column" style={{overflow:'auto'}}>
+                    <FlexContainer direction={"row"} alignItems={"center"}>
+                        <ResultSelectionView client={client}/>
+                        <FlexContainer direction={"row"} alignItems={"center"}>
+                            <ResultSizeSelectionView data={null} client={client} imageSize={this.props.data.imageSize}/>
+                        </FlexContainer>
+                    </FlexContainer>
                     {
                         products.map(item => {
-                            return <ProductView product={item}/>
+                            return <ProductView product={item} products={products}/>
                         })
                     }
-                </Grid>
+                </FlexContainer>
             )}
         </ApolloConsumer>
     }
@@ -80,16 +72,13 @@ query ProductList {
     products @client {
         displayName, 
         articleNumber,
-        catalogEntryId,
-        longDescription,
-        shortDescription,
-        onlineStatus,
-        rating,
-        salesPrice,
-        shipping,
         assets {
             doi,
             id,
+            mediaType,
+            expectedSize,
+            extension,
+            extension,
             checked
         }
     },

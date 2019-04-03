@@ -33,6 +33,9 @@ const GET_PRODUCTS_QUERY = gql`
         assets {
             doi,
             id,
+            expectedSize,
+            mediaType,
+            extension,
             checked
         }
     }

@@ -1,13 +1,11 @@
 import * as React from 'react';
 
 // UI
-import Grid from "@material-ui/core/Grid";
-import Card from "@material-ui/core/Card";
-import CardContent from "@material-ui/core/CardContent";
 import {AssetItemViewProps} from "./PropDefs";
 import {RefObject} from "react";
 import {ApolloConsumer, graphql} from "react-apollo";
 import {gql} from "apollo-boost";
+import {FlexContainer} from "./core/FlexContainer";
 
 class AssetItemViewComp extends React.Component<AssetItemViewProps> {
     inputRef: RefObject<HTMLInputElement> = React.createRef();
@@ -15,30 +13,29 @@ class AssetItemViewComp extends React.Component<AssetItemViewProps> {
         const style = {
             background:'url(https://picscdn.redblue.de/doi/'+this.props.asset.doi+'/fee_325_225_png) no-repeat center/contain',
             width:'105px',
-            height:'105px',
-            margin: '2px',
-            border: '5px solid transparent',
+            height:'105px'
         };
 
         return <ApolloConsumer>
             { client => (
-                <Grid item style={{margin: 3}}>
-                    <Card>
-                        <CardContent style={{padding: 5}}>
-                            <Grid container direction={"column"} alignItems={"flex-start"}>
-                                <input type={"checkbox"} checked={this.props.asset.checked} ref={this.inputRef} onChange={() => {return this.onChange(client)}}/>
-                                <div onClick={() => { return this.onItemClick(client)}} style={{cursor:'pointer',background:"url(/img/psbg.png) repeat", border: "5px solid #fff"}}>
-                                    <div style={style}/>
-                                </div>
-                            </Grid>
-                        </CardContent>
-                    </Card>
-                </Grid>
+                    <FlexContainer direction={"column"} className={"rb-card-item"}>
+                        <div onClick={() => { return this.onItemClick(client)}} style={{cursor:'pointer',background:"url(/img/psbg.png) repeat"}}>
+                            <div style={style}/>
+                        </div>
+                        <FlexContainer direction={"row"} className={"rb-margin-top-5"}>
+                            <div className={"rb-flex rb-flex-grow"}>
+                                <span className={"rb-small-text rb-text-light-gray"}>{this.formatFileSize()} | {this.props.asset.extension.toUpperCase()}</span>
+                            </div>
+                            <div>
+                                <input className={"rb-no-margin rb-no-padding"} type={"checkbox"} checked={this.props.asset.checked} ref={this.inputRef} onChange={() => {return this.onCheckedChange(client)}}/>
+                            </div>
+                        </FlexContainer>
+                    </FlexContainer>
             )}
         </ApolloConsumer>
     }
 
-    onChange = async (client) => {
+    onCheckedChange = async (client) => {
         const checked = this.inputRef.current.checked;
         const result = await client.query({query: GET_CACHED_PRODUCTS_QUERY});
 
@@ -63,11 +60,31 @@ class AssetItemViewComp extends React.Component<AssetItemViewProps> {
     onItemClick = (client) => {
         const doi = this.props.asset.doi;
 
+        if (this.props.asset.extension.toLowerCase() === "pdf") {
+            window.open('https://picscdn.redblue.de/doi/'+this.props.asset.doi);
+            return true;
+        }
+
         client.writeData({data: {dialogImage: doi}});
         client.writeData({data: {isProductDialogOpen: true}});
 
         return true;
     };
+
+    private formatFileSize() {
+        let size:number = this.props.asset.expectedSize;
+        let sizeString = " B";
+        if (size > 1024) {
+            size = size / 1024;
+            sizeString = " KB";
+        }
+        if (size > 1024) {
+            size = size / 1024;
+            sizeString = " MB";
+        }
+
+        return "" + size.toFixed(2) + sizeString;
+    }
 }
 
 const GET_CACHED_PRODUCTS_QUERY = gql`
@@ -78,6 +95,9 @@ query ProductList {
         assets {
             doi,
             id,
+            mediaType,
+            expectedSize,
+            extension,
             checked
         }
     }

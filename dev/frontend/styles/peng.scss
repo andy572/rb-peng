@@ -1,13 +1,91 @@
-.expansionProductViewPanel {
-    margin-top: 15px !important;
-    box-shadow: none !important;
-    border-radius: 0 !important;
-    border: 0 none !important;
-    &:before {
-        background-color: #ddd !important;
-        opacity: 1 !important;
+html, body {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    margin: 0;
+    padding: 0;
+}
+body {
+    background-color: #f6f6f6;
+    font-family: Arial, Verdana, Helvetica, sans-serif;
+    font-size: 9pt;
+}
+.main-container {
+    height: 100%;
+    width: 100%;
+}
+.no-scroll {
+    overflow: hidden;
+}
+.scroll-pane {
+    overflow-y: auto;
+    min-height: 100%;
+    padding: 10px;
+}
+
+.rb-flex {
+    display: flex;
+    &.rb-flex-grow {
+        flex-grow: 1;
     }
-    .expansionProductViewSummary {
-        min-height: 48px !important;
+    &.rb-flex-column {
+        flex-direction: column;
     }
+    &.rb-flex-row {
+        flex-direction: row;
+    }
+    &.rb-flex-wrap {
+        flex-wrap: wrap;
+    }
+    &.rb-flex-align-center {
+        align-items: center;
+    }
+    &.rb-flex-content-center {
+        align-content: center;
+    }
+}
+
+.rb-margin-top-5 {
+    margin-top: 5px;
+}
+
+.rb-no-margin {
+    margin: 0;
+}
+
+.rb-no-padding {
+    padding: 0;
+}
+
+.rb-small-text {
+    font-size: 8pt;
+}
+.rb-text-light-gray {
+    color: gray;
+}
+
+.rb-card {
+    padding: 30px;
+    margin: 25px 15px 0 15px;
+    border-radius: 5px;
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0,0,0, .2);
+    height: fit-content;
+
+    .rb-card-item {
+        margin-top: 12px;
+        margin-right: 12px;
+    }
+}
+
+.rb-left-panel {
+    padding: 15px;
+    background-color: #fff;
+    box-shadow: 0 0 5px rgba(0,0,0, .2);
+    margin-right: 15px;
+    min-width: 250px;
+}
+
+#app-root {
+    height: 100%;
 }

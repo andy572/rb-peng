@@ -3,19 +3,15 @@ import {ChildDataProps} from "react-apollo";
 export type ProductAsset = {
     doi: string,
     id: string,
+    mediaType: string,
+    expectedSize: number,
+    extension: string,
     checked: boolean
 }
 
 export type Product = {
     articleNumber: number,
-    catalogEntryId: number,
     displayName: string,
-    longDescription: string,
-    onlineStatus: boolean,
-    rating: number,
-    salesPrice: number,
-    shipping: number,
-    shortDescription: string,
     assets: ProductAsset[]
 }
 

@@ -3,9 +3,7 @@ import Dialog from "@material-ui/core/Dialog";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import Grid from "@material-ui/core/Grid";
-import IconButton from "@material-ui/core/IconButton";
 import Typography from "@material-ui/core/Typography";
-import CloseIcon from '@material-ui/icons/Close';
 import {gql} from "apollo-boost";
 import {ApolloConsumer, graphql} from "react-apollo";
 import {ImageDialogProps} from "./PropDefs";
@@ -22,9 +20,7 @@ class ImageDialogComponent extends React.Component<ImageDialogProps> {
                                 <Typography variant={"subtitle1"} color={"default"}>Produktbild(er)</Typography>
                             </Grid>
                             <Grid item>
-                                <IconButton>
-                                    <CloseIcon onClick={() => {return this.onClose(client)}}/>
-                                </IconButton>
+                                <div onClick={() => {return this.onClose(client)}}>X</div>
                             </Grid>
                         </Grid>
                     </DialogTitle>

@@ -1,6 +1,9 @@
-const CleanPlugin = require('clean-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
 const path = require('path');
+
+require("shelljs/global");
+
+rm("-rf", "./dist");
 
 module.exports = {
     context: __dirname,
@@ -39,10 +42,7 @@ module.exports = {
     plugins: [
         new CopyPlugin([{
             from: path.resolve('./dev/backend'), to: path.resolve('./dist')
-        }]),
-        new CleanPlugin([
-            path.resolve('./dist')
-        ])
+        }])
     ],
     mode: "development",
     externals: {

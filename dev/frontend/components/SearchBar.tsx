@@ -6,7 +6,6 @@ import "../helpers/StringArray";
 
 // UI
 import IconButton from "@material-ui/core/IconButton";
-import SearchIcon from '@material-ui/icons/Search';
 import TextField from "@material-ui/core/TextField";
 import Grid from "@material-ui/core/Grid";
 
@@ -62,7 +61,7 @@ export class SearchBar extends React.Component {
                     </Grid>
                     <Grid item>
                         <IconButton aria-label="Search" onClick={() => this.startSearch(client)}>
-                            <SearchIcon />
+                            <div>SEARCH</div>
                         </IconButton>
                     </Grid>
                 </Grid>
@@ -70,24 +69,58 @@ export class SearchBar extends React.Component {
             </ApolloConsumer>
     }
 
-    startSearch = async (client) => {
+    startSearch = (client) => {
         let str = this.inputRef.current.value.replace(/\s+/g, ' ');
         const search_values = str.replace(/\s/g, ',').replace(/[,]+/g, ',').split(/,/);
 
-        let current_search_values = await client.query({query: GET_CACHED_SEARCH_VALUES});
-        if (!current_search_values)
-            current_search_values = [];
-        else {
-            current_search_values = current_search_values.data.search;
-        }
+        client.query({query: GET_CACHED_SEARCH_VALUES})
+            .then(current_search_values => {
+                if (!current_search_values)
+                    current_search_values = [];
+                else {
+                    current_search_values = current_search_values.data.search;
+                    this.inputRef.current.value = "";
+                }
 
-        const updated_search_values = current_search_values.concat(search_values).unique();
-        this.inputRef.current.value = "";
+                const updated_search_values = current_search_values.concat(search_values).unique();
 
-        await client.cache.writeData({data: {loading: true, products: []}});
-        const result = await client.query({query: GET_PRODUCTS_QUERY, variables: {product_id: search_values}}).catch(()=>{
-            client.cache.writeData({data: {products: [], search: updated_search_values, loading: false, error: true}});
+                client.cache.writeData({
+                    data: {
+                        loading: true,
+                        products: []
+                    }
+                });
+
+                client.query({query: GET_PRODUCTS_QUERY, variables: {product_id: search_values}})
+                    .then(search_result => {
+                        client.cache.writeData({
+                            data: {
+                                products: search_result.data.products,
+                                search: updated_search_values,
+                                loading: false,
+                                error: false
+                            }
+                        });
+                    })
+                    .catch((e)=>{console.error( e );
+                        client.cache.writeData({
+                            data: {
+                                products: [],
+                                loading: false,
+                                error: true
+                            }
+                        });
+                    });
+            })
+            .catch((e) => {
+                console.error( e );
+                client.cache.writeData({
+                    data: {
+                        products: [],
+                        loading: false,
+                        error: true
+                    }
+                });
         });
-        await client.cache.writeData({data: {products: result.data.products, search: updated_search_values, loading: false, error: false}});
     }
 }

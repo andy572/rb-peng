@@ -1,6 +1,9 @@
-var CleanPlugin = require('clean-webpack-plugin');
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-var path = require('path');
+const path = require('path');
+
+require("shelljs/global");
+
+rm("-rf", "./dist/js");
 
 module.exports = {
     context: __dirname,
@@ -37,9 +40,6 @@ module.exports = {
         ]
     },
     plugins: [
-        new CleanPlugin([
-            path.resolve('./dist/public/js')
-        ]),
         new MiniCssExtractPlugin({
             // Options similar to the same options in webpackOptions.output
             // both options are optional

@@ -147,54 +147,52 @@ class ProductDataSource {
     }
 
     private static function getProxy() {
-        if (self::$proxy === null) {
-            $proxy_conf = config('proxy');
-            $proxy = [];
-            if (isset($proxy_conf['enabled']) && $proxy_conf['enabled']) {
-                $user = isset($proxy_conf['proxy_user']) && !empty($proxy_conf['proxy_user']) ? $proxy_conf['proxy_user'] : '';
-                $pass = isset($proxy_conf['proxy_pass']) && !empty($proxy_conf['proxy_pass']) ? $proxy_conf['proxy_pass'] : '';
+        $proxy_conf = config('proxy');
+        $proxy = [];
+        if (isset($proxy_conf['enabled']) && $proxy_conf['enabled']) {
+            $user = isset($proxy_conf['proxy_user']) && !empty($proxy_conf['proxy_user']) ? $proxy_conf['proxy_user'] : '';
+            $pass = isset($proxy_conf['proxy_pass']) && !empty($proxy_conf['proxy_pass']) ? $proxy_conf['proxy_pass'] : '';
 
-                $http_proxy_host  = isset($proxy_conf['http_proxy_host']) && !empty($proxy_conf['http_proxy_host']) ? $proxy_conf['http_proxy_host'] : '';
-                $http_proxy_port  = isset($proxy_conf['http_proxy_port']) && !empty($proxy_conf['http_proxy_port']) ? $proxy_conf['http_proxy_port'] : '';
+            $http_proxy_host  = isset($proxy_conf['http_proxy_host']) && !empty($proxy_conf['http_proxy_host']) ? $proxy_conf['http_proxy_host'] : '';
+            $http_proxy_port  = isset($proxy_conf['http_proxy_port']) && !empty($proxy_conf['http_proxy_port']) ? $proxy_conf['http_proxy_port'] : '';
 
-                $https_proxy_host = isset($proxy_conf['https_proxy_host']) && !empty($proxy_conf['https_proxy_host']) ? $proxy_conf['https_proxy_host'] : '';
-                $https_proxy_port = isset($proxy_conf['https_proxy_port']) && !empty($proxy_conf['https_proxy_port']) ? $proxy_conf['https_proxy_port'] : '';
+            $https_proxy_host = isset($proxy_conf['https_proxy_host']) && !empty($proxy_conf['https_proxy_host']) ? $proxy_conf['https_proxy_host'] : '';
+            $https_proxy_port = isset($proxy_conf['https_proxy_port']) && !empty($proxy_conf['https_proxy_port']) ? $proxy_conf['https_proxy_port'] : '';
 
-                $http_proxy  = null;
-                $https_proxy = null;
+            $http_proxy  = null;
+            $https_proxy = null;
 
-                if (!empty($user)) {
-                    if (!empty($pass)) {
-                        $user = "$user:$pass@";
-                    }
-                    else {
-                        $user = "$user@";
-                    }
-
-                    $http_proxy = "http://" . $user . $http_proxy_host;
-                    if (!empty($http_proxy_port))
-                        $http_proxy .= ':' . $http_proxy_port;
-
-                    $https_proxy = "http://" . $user . $https_proxy_host;
-                    if (!empty($https_proxy_port))
-                        $https_proxy .= ':' . $https_proxy_port;
-
-                } else {
-
-                    $http_proxy = "http://" . $http_proxy_host;
-                    if (!empty($http_proxy_port))
-                        $http_proxy .= ':' . $http_proxy_port;
-
-                    $https_proxy = "http://" . $https_proxy_host;
-                    if (!empty($https_proxy_port))
-                        $https_proxy .= ':' . $https_proxy_port;
+            if (!empty($user)) {
+                if (!empty($pass)) {
+                    $user = "$user:$pass@";
+                }
+                else {
+                    $user = "$user@";
                 }
 
-                $proxy['http']  = $http_proxy;
-                $proxy['https'] = $https_proxy;
+                $http_proxy = "http://" . $user . $http_proxy_host;
+                if (!empty($http_proxy_port))
+                    $http_proxy .= ':' . $http_proxy_port;
 
-                self::$proxy = $proxy;
+                $https_proxy = "http://" . $user . $https_proxy_host;
+                if (!empty($https_proxy_port))
+                    $https_proxy .= ':' . $https_proxy_port;
+
+            } else {
+
+                $http_proxy = "http://" . $http_proxy_host;
+                if (!empty($http_proxy_port))
+                    $http_proxy .= ':' . $http_proxy_port;
+
+                $https_proxy = "http://" . $https_proxy_host;
+                if (!empty($https_proxy_port))
+                    $https_proxy .= ':' . $https_proxy_port;
             }
+
+            $proxy['http']  = $http_proxy;
+            $proxy['https'] = $https_proxy;
+
+            self::$proxy = $proxy;
         }
 
         return self::$proxy;

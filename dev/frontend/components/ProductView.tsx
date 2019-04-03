@@ -2,7 +2,7 @@ import * as React from "react";
 
 import {AssetItemView} from "./AssetItemView";
 import {Product} from "./PropDefs";
-import Typography from "@material-ui/core/Typography";
+import {Typography} from "./core/Typography";
 import {FlexContainer} from "./core/FlexContainer";
 import {Card} from "./core/Card";
 import {ApolloConsumer} from "react-apollo";

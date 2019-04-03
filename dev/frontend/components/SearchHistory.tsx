@@ -2,7 +2,7 @@ import * as React from "react";
 import {graphql} from "react-apollo";
 import gql from "graphql-tag";
 import Grid from "@material-ui/core/Grid";
-import Typography from "@material-ui/core/Typography";
+import {Typography} from "./core/Typography";
 import {SearchHistoryProps} from "./PropDefs";
 
 

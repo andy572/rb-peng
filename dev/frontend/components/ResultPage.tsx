@@ -4,7 +4,7 @@ import {ApolloConsumer, graphql} from "react-apollo";
 import {ResultProps} from "./PropDefs";
 
 // UI
-import Typography from '@material-ui/core/Typography';
+import {Typography} from './core/Typography';
 import {CircularProgress} from '@material-ui/core';
 import {ResultSelectionView} from "./ResultSelectionView";
 import {ResultSizeSelectionView} from "./ResultSizeSelectionView";

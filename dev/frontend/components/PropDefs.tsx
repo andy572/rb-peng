@@ -47,3 +47,10 @@ export type SearchHistoryProps = {
 export type ClientProp = {
     client: any
 } & ChildDataProps;
+
+export type TypographyProps = {
+    variant?: "caption" | "subtitle1" | "subtitle2" | "body" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6",
+    color?: string,
+    style?: object,
+    align?: "left" | "right" | "center"
+}

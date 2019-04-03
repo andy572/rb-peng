@@ -1,6 +1,6 @@
 import * as React from "react";
 import Checkbox from "@material-ui/core/Checkbox";
-import Typography from "@material-ui/core/Typography";
+import {Typography} from "./core/Typography";
 import {RefObject} from "react";
 import {gql} from "apollo-boost";
 import {graphql} from "react-apollo";

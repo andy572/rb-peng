@@ -1,5 +1,5 @@
 import Grid from "@material-ui/core/Grid";
-import Typography from "@material-ui/core/Typography";
+import {Typography} from "./core/Typography";
 import * as React from "react";
 import RadioGroup from "@material-ui/core/RadioGroup";
 import FormControlLabel from "@material-ui/core/FormControlLabel";

@@ -1,10 +1,6 @@
 import * as React from "react";
-import Dialog from "@material-ui/core/Dialog";
-import DialogContent from "@material-ui/core/DialogContent";
-import DialogTitle from "@material-ui/core/DialogTitle";
-import Grid from "@material-ui/core/Grid";
-import Typography from "@material-ui/core/Typography";
-import {gql} from "apollo-boost";
+import {Dialog} from "./core/Dialog";
+import gql from "graphql-tag";
 import {ApolloConsumer, graphql} from "react-apollo";
 import {ImageDialogProps} from "./PropDefs";
 
@@ -12,21 +8,8 @@ class ImageDialogComponent extends React.Component<ImageDialogProps> {
     render() {
         return <ApolloConsumer>
             {client => (
-                 <Dialog open={this.props.data.isProductDialogOpen} aria-labelledby="customized-dialog-title">
-                    <DialogTitle id="customized-dialog-title" style={{padding:10,backgroundColor:'#f2f2f2',borderBottom: '1px solid #e0e0e0'}}>
-                        <Grid container direction={"row"} alignItems={"center"}
-                              style={{padding: 0, margin: 0}}>
-                            <Grid item style={{flexGrow:1, marginLeft: 15}}>
-                                <Typography variant={"subtitle1"} color={"default"}>Produktbild(er)</Typography>
-                            </Grid>
-                            <Grid item>
-                                <div onClick={() => {return this.onClose(client)}}>X</div>
-                            </Grid>
-                        </Grid>
-                    </DialogTitle>
-                    <DialogContent>
-                        {this.renderAsset()}
-                    </DialogContent>
+                 <Dialog open={this.props.data.isProductDialogOpen}>
+                     {this.renderAsset()}
                 </Dialog>
             )}
         </ApolloConsumer>

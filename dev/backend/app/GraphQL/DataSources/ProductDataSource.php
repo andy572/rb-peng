@@ -71,14 +71,6 @@ class ProductDataSource {
                             $extension = "pdf";
                         }
 
-                        if (!empty($extension)) {
-                            if ($extension === "pdf") {
-                                $asset->expectedSize = self::getFileSize('https://picscdn.redblue.de/doi/'.$asset->doi);
-                            } else {
-                                $asset->expectedSize = self::getFileSize('https://picscdn.redblue.de/doi/'.$asset->doi.'/fee_786_587_png');
-                            }
-                        }
-
                         $asset->mediaType = $mediaType;
                         $asset->extension = $extension;
 
@@ -112,38 +104,6 @@ class ProductDataSource {
         }
 
         return $result;
-    }
-
-    private static function getFileSize($url) {
-        $proxy = self::getProxy();
-        $options = [];
-        if (!empty($proxy)) {
-            $options['proxy'] = $proxy;
-        }
-
-        try {
-            $client = new Client(); //GuzzleHttp\Client
-            $data = $client->request('GET', $url, $options);
-
-            $content = $data->getBody()->getContents();
-            $fileSize = $data->getBody()->getSize();
-
-            if (empty($fileSize) && !empty($content)) {
-                $tmp_name = tempnam(sys_get_temp_dir(), uniqid());
-                $handle = fopen($tmp_name, "wb");
-                fwrite($handle, $content);
-                fclose($handle);
-                $fileSize = filesize($tmp_name);
-                unlink($tmp_name);
-                $content = null; // free resource
-            }
-
-            return $fileSize;
-        } catch (GuzzleException $e) {
-            Log::error( $e->getMessage() );
-        } catch (\Exception $e) {
-            Log::error( $e->getMessage() );
-        }
     }
 
     private static function getProxy() {

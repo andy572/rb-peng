@@ -1,20 +1,15 @@
 import * as React from "react";
-import Checkbox from "@material-ui/core/Checkbox";
-import {Typography} from "./core/Typography";
-import {RefObject} from "react";
-import {gql} from "apollo-boost";
+import {Checkbox} from "./core/Checkbox";
+import gql from "graphql-tag";
 import {graphql} from "react-apollo";
 import {ClientProp} from "./PropDefs";
-import {FlexContainer} from "./core/FlexContainer";
+import {RefObject} from "react";
 
 class ResultSelectionViewComp extends React.Component<ClientProp> {
-    private selectionRef: RefObject<HTMLInputElement> = React.createRef();
+    selectionRef: RefObject<HTMLInputElement> = React.createRef();
 
     render() {
-        return <FlexContainer direction={"row"} grow alignItems={"center"}>
-            <Checkbox color={"default"} inputRef={this.selectionRef} onChange={() => {return this.onSelectionChange()}}/>
-            <Typography variant={"caption"}>Alle auswählen</Typography>
-        </FlexContainer>
+        return <Checkbox label={"Alles auswählen"} inputRef={this.selectionRef} onChange={() => {return this.onSelectionChange()}}/>
     }
 
     async onSelectionChange() {

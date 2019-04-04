@@ -1,4 +1,5 @@
 import {ChildDataProps} from "react-apollo";
+import {RefObject} from "react";
 
 export type ProductAsset = {
     doi: string,
@@ -50,7 +51,16 @@ export type ClientProp = {
 
 export type TypographyProps = {
     variant?: "caption" | "subtitle1" | "subtitle2" | "body" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6",
-    color?: string,
+    color?: "textSecondary" | "textPrimary" | "default",
     style?: object,
-    align?: "left" | "right" | "center"
+    align?: "left" | "right" | "center",
+    className?: string
+}
+
+export type CheckboxProps = {
+    inputRef?:RefObject<HTMLInputElement>,
+    label?:string,
+    onChange?:()=>{},
+    checked?:boolean,
+    style?: object,
 }

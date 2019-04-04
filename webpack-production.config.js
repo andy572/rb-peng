@@ -36,13 +36,25 @@ module.exports = {
                         includePaths: [path.resolve("dev/frontend/styles")]
                     }
                 }]
+            },
+            {
+                test: /\.(woff(2)?|ttf|eot|svg)(\?v=\d+\.\d+\.\d+)?$/,
+                use: [{
+                    loader: 'file-loader',
+                    options: {
+                        name: '[name].[ext]',
+                        outputPath: '../fonts/'
+                    }
+                }]
             }
         ]
     },
     plugins: [
-        new CopyPlugin([{
-            from: path.resolve('./dev/backend'), to: path.resolve('./dist')
-        }])
+        new CopyPlugin([
+            {
+                from: path.resolve('./dev/backend'), to: path.resolve('./dist'),
+            }
+        ])
     ],
     mode: "development",
     externals: {

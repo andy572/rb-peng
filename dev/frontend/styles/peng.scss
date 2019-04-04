@@ -1,3 +1,12 @@
+$fa-font-path: "~font-awesome/fonts";
+@import "~font-awesome/scss/font-awesome";
+
+
+$text-color-primary: #444;
+$text-color-secondary: #999;
+$control-icon-color: #777;
+$control-input-border-color: #777;
+
 html, body {
     width: 100%;
     height: 100%;
@@ -9,6 +18,10 @@ body {
     background-color: #f6f6f6;
     font-family: Arial, Verdana, Helvetica, sans-serif;
     font-size: 9pt;
+}
+h1, h2, h3, h4, h5, h6 {
+    padding: 5px 0 5px;
+    margin:  5px 0 5px;
 }
 .main-container {
     height: 100%;
@@ -88,4 +101,83 @@ body {
 
 #app-root {
     height: 100%;
+}
+
+.rb-textPrimary {
+    color: rgba(0, 0, 0, .8);
+}
+
+.rb-textSecondary {
+    color: $text-color-secondary;
+}
+
+.rb-h1, .rb-h2, .rb-h3, .rb-h4, .rb-h5, .rb-h6 {
+    font-weight: 300;
+}
+
+.rb-h1 {
+    font-size: 15pt;
+}
+.rb-h2 {
+    font-size: 14pt;
+}
+.rb-h3 {
+    font-size: 13pt;
+    font-weight: 200;
+    margin: 0;
+    padding: 0;
+}
+.rb-h4 {
+    font-size: 12pt;
+    font-weight: 200;
+    margin: 0;
+    padding: 0;
+}
+.rb-h5 {
+    font-size: 10pt;
+    font-weight: 200;
+    margin: 0;
+    padding: 0;
+}
+.rb-h6 {
+    font-size: 9pt;
+    font-weight: 200;
+    margin: 0;
+    padding: 0;
+}
+
+.rb-overlay {
+    position: fixed;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, .3);
+}
+
+.rb-control-icon {
+    font-size: 14pt;
+    color: $control-icon-color;
+    display: inline-block;
+    margin: 5px;
+}
+.rb-checkbox-icon {
+    font-size: 12px;
+    color: $control-icon-color;
+    display: inline-block;
+    margin: 3px;
+    border: 1px solid $control-input-border-color;
+    border-radius: 3px;
+    width: 14px;
+    height: 14px;
+    line-height: 14px;
+    text-align: center;
+}
+.rb-control-input {
+    outline: none;
+    border: 1px solid $control-input-border-color;
+    border-radius: 3px;
+    padding: 5px;
 }

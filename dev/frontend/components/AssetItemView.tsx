@@ -1,11 +1,12 @@
 import * as React from 'react';
+import {RefObject} from "react";
+import {ApolloConsumer, graphql} from "react-apollo";
+import gql from "graphql-tag";
 
 // UI
 import {AssetItemViewProps} from "./PropDefs";
-import {RefObject} from "react";
-import {ApolloConsumer, graphql} from "react-apollo";
-import {gql} from "apollo-boost";
 import {FlexContainer} from "./core/FlexContainer";
+import {Checkbox} from "./core/Checkbox";
 
 class AssetItemViewComp extends React.Component<AssetItemViewProps> {
     inputRef: RefObject<HTMLInputElement> = React.createRef();
@@ -16,6 +17,8 @@ class AssetItemViewComp extends React.Component<AssetItemViewProps> {
             height:'105px'
         };
 
+        const checked = this.props.asset.checked;
+
         return <ApolloConsumer>
             { client => (
                     <FlexContainer direction={"column"} className={"rb-card-item"}>
@@ -23,12 +26,7 @@ class AssetItemViewComp extends React.Component<AssetItemViewProps> {
                             <div style={style}/>
                         </div>
                         <FlexContainer direction={"row"} className={"rb-margin-top-5"}>
-                            <div className={"rb-flex rb-flex-grow"}>
-                                <span className={"rb-small-text rb-text-light-gray"}>{this.formatFileSize()} | {this.props.asset.extension.toUpperCase()}</span>
-                            </div>
-                            <div>
-                                <input className={"rb-no-margin rb-no-padding"} type={"checkbox"} checked={this.props.asset.checked} ref={this.inputRef} onChange={() => {return this.onCheckedChange(client)}}/>
-                            </div>
+                            <Checkbox label={this.props.asset.extension.toUpperCase()} checked={checked} inputRef={this.inputRef} onChange={() => {return this.onCheckedChange(client)}}/>
                         </FlexContainer>
                     </FlexContainer>
             )}
@@ -70,21 +68,6 @@ class AssetItemViewComp extends React.Component<AssetItemViewProps> {
 
         return true;
     };
-
-    private formatFileSize() {
-        let size:number = this.props.asset.expectedSize;
-        let sizeString = " B";
-        if (size > 1024) {
-            size = size / 1024;
-            sizeString = " KB";
-        }
-        if (size > 1024) {
-            size = size / 1024;
-            sizeString = " MB";
-        }
-
-        return "" + size.toFixed(2) + sizeString;
-    }
 }
 
 const GET_CACHED_PRODUCTS_QUERY = gql`
@@ -96,7 +79,6 @@ query ProductList {
             doi,
             id,
             mediaType,
-            expectedSize,
             extension,
             checked
         }

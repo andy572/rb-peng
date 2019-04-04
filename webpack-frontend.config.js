@@ -1,5 +1,7 @@
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const CopyPlugin = require('copy-webpack-plugin');
 const path = require('path');
+const ExtractTextPlugin = require("extract-text-webpack-plugin");
 
 require("shelljs/global");
 
@@ -26,14 +28,28 @@ module.exports = {
             },
             {
                 test: /\.scss$/,
+                use: [
+                    {
+                        loader: "style-loader"
+                    },
+                    {
+                        loader: "css-loader"
+                    },
+                    {
+                        loader: "sass-loader",
+                        options: {
+                            includePaths: [path.resolve("dev/frontend/styles")]
+                        }
+                    }
+                ]
+            },
+            {
+                test: /\.(woff(2)?|ttf|eot|svg)(\?v=\d+\.\d+\.\d+)?$/,
                 use: [{
-                    loader: "style-loader"
-                }, {
-                    loader: "css-loader"
-                }, {
-                    loader: "sass-loader",
+                    loader: 'file-loader',
                     options: {
-                        includePaths: [path.resolve("dev/frontend/styles")]
+                        name: '[name].[ext]',
+                        outputPath: '../fonts/'
                     }
                 }]
             }
@@ -41,8 +57,6 @@ module.exports = {
     },
     plugins: [
         new MiniCssExtractPlugin({
-            // Options similar to the same options in webpackOptions.output
-            // both options are optional
             filename: "[name].css",
             chunkFilename: "[id].css"
         })

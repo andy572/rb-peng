@@ -1,13 +1,11 @@
 import * as React from 'react';
 import {RefObject} from "react";
 import {ApolloConsumer} from "react-apollo";
-import { gql } from "apollo-boost";
+import gql from "graphql-tag";
 import "../helpers/StringArray";
 
 // UI
-import IconButton from "@material-ui/core/IconButton";
-import TextField from "@material-ui/core/TextField";
-import Grid from "@material-ui/core/Grid";
+import {FlexContainer} from "./core/FlexContainer";
 
 const GET_PRODUCTS_QUERY = gql`
     query ProductList($product_id: [Int]!) {
@@ -32,7 +30,6 @@ const GET_PRODUCTS_QUERY = gql`
         assets {
             doi,
             id,
-            expectedSize,
             mediaType,
             extension,
             checked
@@ -55,16 +52,10 @@ export class SearchBar extends React.Component {
     render() {
         return <ApolloConsumer>
             {client => (
-                <Grid container direction="row" alignItems="center" alignContent={"stretch"} wrap={"nowrap"}>
-                    <Grid item style={{flexGrow: 1}}>
-                        <TextField fullWidth multiline inputProps={{variant:'outlined', style:{fontSize:14}}} placeholder="Artikelnummer eingeben" inputRef={this.inputRef}/>
-                    </Grid>
-                    <Grid item>
-                        <IconButton aria-label="Search" onClick={() => this.startSearch(client)}>
-                            <div>SEARCH</div>
-                        </IconButton>
-                    </Grid>
-                </Grid>
+                <FlexContainer direction="row" alignItems="center" alignContent={"stretch"}>
+                    <input type={"text"} className={"rb-control-input"} placeholder="Artikelnummer eingeben" ref={this.inputRef}/>
+                    <div onClick={() => this.startSearch(client)}><span className="rb-control-icon fa fa-search"/></div>
+                </FlexContainer>
             )}
             </ApolloConsumer>
     }

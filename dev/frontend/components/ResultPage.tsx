@@ -1,13 +1,13 @@
 import * as React from 'react';
-import {gql} from "apollo-boost";
+import gql from "graphql-tag";
 import {ApolloConsumer, graphql} from "react-apollo";
 import {ResultProps} from "./PropDefs";
 
 // UI
 import {Typography} from './core/Typography';
-import {CircularProgress} from '@material-ui/core';
+//import {CircularProgress} from '@material-ui/core';
 import {ResultSelectionView} from "./ResultSelectionView";
-import {ResultSizeSelectionView} from "./ResultSizeSelectionView";
+//import {ResultSizeSelectionView} from "./ResultSizeSelectionView";
 import {ProductView} from "./ProductView";
 import {FlexContainer} from "./core/FlexContainer";
 import {Card} from "./core/Card";
@@ -22,13 +22,21 @@ const styles = {
     }
 };
 
+/*
+<FlexContainer direction={"row"} alignItems={"center"}>
+                            <ResultSizeSelectionView data={null} client={client} imageSize={this.props.data.imageSize}/>
+                        </FlexContainer>
+* */
+
+// <CircularProgress color="secondary" size={24} />
+
 class ResultPageComp extends React.Component<ResultProps> {
     render() {
         const {loading, products, search} = this.props.data;
 
         if (loading) {
             return <Card className={"rb-flex rb-flex-grow"}>
-                <CircularProgress color="secondary" size={24} />
+
                 <Typography>Loading...</Typography>
             </Card>
         }
@@ -52,9 +60,6 @@ class ResultPageComp extends React.Component<ResultProps> {
                 <FlexContainer direction="column" style={{overflow:'auto'}}>
                     <FlexContainer direction={"row"} alignItems={"center"}>
                         <ResultSelectionView client={client}/>
-                        <FlexContainer direction={"row"} alignItems={"center"}>
-                            <ResultSizeSelectionView data={null} client={client} imageSize={this.props.data.imageSize}/>
-                        </FlexContainer>
                     </FlexContainer>
                     {
                         products.map(item => {
@@ -76,7 +81,6 @@ query ProductList {
             doi,
             id,
             mediaType,
-            expectedSize,
             extension,
             extension,
             checked

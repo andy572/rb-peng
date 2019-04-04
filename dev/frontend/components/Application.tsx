@@ -1,33 +1,41 @@
 import * as React from 'react';
-import ApolloClient from "apollo-boost";
 import {ApolloProvider} from "react-apollo";
 import {InMemoryCache} from "apollo-cache-inmemory";
-
-import { ResultPage } from "./ResultPage";
-import { SearchBar } from "./SearchBar";
-import {SearchHistory} from "./SearchHistory";
+import {ApolloClient} from "apollo-client";
+import {ApolloLink} from "apollo-link";
+import { HttpLink } from 'apollo-link-http';
+import { withClientState } from 'apollo-link-state';
 
 // UI
 import {ImageDialog} from "./ImageDialog";
-
-import "../styles/peng.scss";
+import { ResultPage } from "./ResultPage";
+import { SearchBar } from "./SearchBar";
+import {SearchHistory} from "./SearchHistory";
 import {FlexContainer} from "./core/FlexContainer";
 
+import "../styles/peng.scss";
+
+const cache = new InMemoryCache();
 const client = new ApolloClient({
-    clientState: {
-        cache: new InMemoryCache(),
-        defaults: {
-            products: [],
-            dialogImage: "",
-            isProductDialogOpen: false,
-            imageSize: 1,
-            search: [],
-            loading: false,
-            error: false
-        },
-        resolvers: {}
-    },
-    uri: '/api/graphql'
+    link: ApolloLink.from([
+        new HttpLink({
+            uri: '/api/graphql'
+        }),
+        withClientState({
+            defaults: {
+                products: [],
+                dialogImage: "",
+                isProductDialogOpen: false,
+                imageSize: 1,
+                search: [],
+                loading: false,
+                error: false
+            },
+            resolvers: {},
+            cache
+        })
+    ]),
+    cache
 });
 
 export class Application extends React.Component {

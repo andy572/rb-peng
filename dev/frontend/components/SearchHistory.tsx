@@ -1,25 +1,21 @@
 import * as React from "react";
 import {graphql} from "react-apollo";
 import gql from "graphql-tag";
-import Grid from "@material-ui/core/Grid";
 import {Typography} from "./core/Typography";
 import {SearchHistoryProps} from "./PropDefs";
+import {FlexContainer} from "./core/FlexContainer";
 
 
 class SearchHistoryComponent extends React.Component<SearchHistoryProps> {
     render() {
         if (this.props.data.search.length == 0) return null;
 
-        return <Grid container direction={"column"} style={{marginTop:15}}>
-            <Grid item>
-                <Typography variant={"caption"} color={"default"}>Verlauf</Typography>
-            </Grid>
+        return <FlexContainer direction={"column"} style={{marginTop:15}}>
+            <Typography variant={"caption"} color={"textSecondary"}>Verlauf</Typography>
             {this.props.data.search.map(value => {
-                return <Grid item>
-                    <Typography variant={"subtitle2"}>{value}</Typography>
-                </Grid>
+                return <Typography variant={"subtitle2"}>{value}</Typography>
             })}
-        </Grid>;
+        </FlexContainer>;
     }
 }
 

@@ -8,7 +8,6 @@ import {FlexContainer} from "./core/FlexContainer";
 import {Checkbox} from "./core/Checkbox";
 
 class AssetItemViewComp extends React.Component<AssetItemViewProps> {
-    //inputRef: RefObject<HTMLInputElement> = React.createRef();
     render() {
         const style = {
             background:'url(https://picscdn.redblue.de/doi/'+this.props.asset.doi+'/fee_325_225_png) no-repeat center/contain',
@@ -16,8 +15,7 @@ class AssetItemViewComp extends React.Component<AssetItemViewProps> {
             height:'105px'
         };
 
-        const checked = this.props.asset.checked;
-        console.log( "asset checked: ", checked );
+        const checked = this.props.asset.checked === true;
 
         return <ApolloConsumer>
             { client => (
@@ -42,8 +40,6 @@ class AssetItemViewComp extends React.Component<AssetItemViewProps> {
 
     onCheckedChange = async (client, checked) => {
         const result = await client.query({query: GET_CACHED_PRODUCTS_QUERY});
-
-        console.log( "asset after click checked: ", checked );
 
         const updated_products = result.data.products.map((product => {
             if (product.articleNumber === this.props.articleNumber) {

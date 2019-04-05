@@ -64,6 +64,12 @@ export class SearchBar extends React.Component {
         let str = this.inputRef.current.value.replace(/\s+/g, ' ');
         const search_values = str.replace(/\s/g, ',').replace(/[,]+/g, ',').split(/,/);
 
+        if (search_values.length === 0 || (search_values.length == 1 && search_values[0].length == 0))
+            return;
+        else {
+            console.log( search_values );
+        }
+
         client.query({query: GET_CACHED_SEARCH_VALUES})
             .then(current_search_values => {
                 if (!current_search_values)

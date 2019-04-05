@@ -43,21 +43,30 @@ class ResultPageComp extends React.Component<ResultProps> {
 
         if (!products || products.length === 0) {
             if (search.length == 0) {
-                return <Card className={"rb-flex rb-flex-grow"}>
-                    <Typography>Geben Sie eine oder mehrere Artikelnummern ein, um zu beginnen</Typography>
-                </Card>
+                return <FlexContainer direction="column" className={"rb-page-content"}>
+                    <Typography variant={"h2"}>Assets finden</Typography>
+                    <Typography variant={"subtitle2"}>Bitte bis zu XXX Artikelnummern in das Suchfeld eingeben</Typography>
+                </FlexContainer>
             } else {
-                return <Card style={styles.error} className={"rb-flex rb-flex-grow"}>
-                    <Typography style={styles.font}>Es konnten keine Produkte gefunden werden</Typography>
-                </Card>
+                return <FlexContainer direction="column" className={"rb-page-content"}>
+                    <Typography variant={"h2"}>Assets finden</Typography>
+                    <Card style={styles.error}><Typography variant={"h5"}>Es konnten keine Produkte gefunden werden</Typography></Card>
+                </FlexContainer>
             }
         }
 
         // TODO display error: article number(s) where not found
 
+        let assetCount = 0;
+        products.forEach((product) => {
+            assetCount += product.assets.length;
+        });
+
+        const productWord = products.length == 1 ? "Produkt" : "Produkten";
         return <ApolloConsumer>
             {client => (
-                <FlexContainer direction="column" style={{overflow:'auto'}}>
+                <FlexContainer direction="column" style={{overflow:'auto'}} className={"rb-page-content"}>
+                    <Typography variant={"h2"}>{assetCount} Assets in {products.length} {productWord} gefunden</Typography>
                     <FlexContainer direction={"row"} alignItems={"center"}>
                         <ResultSelectionView client={client}/>
                     </FlexContainer>

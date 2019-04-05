@@ -2,24 +2,26 @@ import * as React from "react";
 import {FlexContainer} from "./FlexContainer";
 import {Typography} from "./Typography";
 import {CheckboxProps} from "../PropDefs";
-import {RefObject} from "react";
 
 export class Checkbox extends React.Component<CheckboxProps> {
-    private inputRef:RefObject<HTMLInputElement> = React.createRef();
-    public state;
+    state : {checked: boolean, useState: boolean};
 
     constructor(props) {
         super(props);
-
-        const checked = this.props.checked;
-        this.state = {checked:checked};
+        this.state = {checked:false, useState: (this.props.checked === undefined)};
     }
 
     render() {
         let classNames = [];
         classNames.push("fa");
 
-        const checked = this.props.checked || this.state.checked;
+        let checked = false;
+        if (this.props.checked === true)
+            checked = true;
+
+        if (this.state.useState)
+            checked = this.state.checked;
+
         if (checked) {
             classNames.push("fa-check");
         }
@@ -32,13 +34,12 @@ export class Checkbox extends React.Component<CheckboxProps> {
 
         return <FlexContainer style={{...this.props.style}} direction={"row"} alignItems={"center"}>
             <span className={classNames.join(" ")} onClick={() => {return this.onCheckboxClick() }}/>
-            <input type={"checkbox"} style={{display:'none'}} ref={this.inputRef} checked={checked}/>
             <Typography style={{...this.props.labelStyle}} className={labelClass}>{this.props.label}</Typography>
         </FlexContainer>
     }
 
     private onCheckboxClick = async () => {
-        const checked = this.state.checked == false ? true : false;
+        const checked = this.state.checked == false;
         await this.setState({checked: checked});
 
         if (this.props.onChange) {

@@ -53,6 +53,9 @@ module.exports = {
         new CopyPlugin([
             {
                 from: path.resolve('./dev/backend'), to: path.resolve('./dist'),
+            },
+            {
+                from: path.resolve('./dev/frontend/assets/'), to: path.resolve('./dist/public/assets'),
             }
         ])
     ],

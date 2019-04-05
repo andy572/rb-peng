@@ -1,7 +1,6 @@
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const CopyPlugin = require('copy-webpack-plugin');
 const path = require('path');
-const ExtractTextPlugin = require("extract-text-webpack-plugin");
 
 require("shelljs/global");
 
@@ -59,7 +58,12 @@ module.exports = {
         new MiniCssExtractPlugin({
             filename: "[name].css",
             chunkFilename: "[id].css"
-        })
+        }),
+        new CopyPlugin([
+            {
+                from: path.resolve('./dev/frontend/assets/'), to: path.resolve('./dist/public/assets'),
+            }
+        ])
     ],
     mode: "development",
     externals: {

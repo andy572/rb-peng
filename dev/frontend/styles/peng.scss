@@ -96,7 +96,17 @@ h1, h2, h3, h4, h5, h6 {
     background-color: #fff;
     box-shadow: 0 0 5px rgba(0,0,0, .2);
     margin-right: 15px;
+    max-width: 250px;
     min-width: 250px;
+}
+
+.rb-right-panel {
+    padding: 15px;
+    background-color: #eee;
+    margin-left: 15px;
+    max-width: 200px;
+    min-width: 200px;
+    height: 100vh;
 }
 
 #app-root {

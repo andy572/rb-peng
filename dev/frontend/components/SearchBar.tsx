@@ -53,7 +53,7 @@ export class SearchBar extends React.Component {
         return <ApolloConsumer>
             {client => (
                 <FlexContainer direction="row" alignItems="center" alignContent={"stretch"}>
-                    <input type={"text"} className={"rb-control-input"} placeholder="Artikelnummer eingeben" ref={this.inputRef}/>
+                    <input type={"text"} className={"rb-control-input"} style={{flexGrow:1}} placeholder="Artikelnummer eingeben" ref={this.inputRef}/>
                     <div onClick={() => this.startSearch(client)}><span className="rb-control-icon fa fa-search"/></div>
                 </FlexContainer>
             )}

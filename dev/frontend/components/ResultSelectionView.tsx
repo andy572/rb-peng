@@ -3,18 +3,15 @@ import {Checkbox} from "./core/Checkbox";
 import gql from "graphql-tag";
 import {graphql} from "react-apollo";
 import {ClientProp} from "./PropDefs";
-import {RefObject} from "react";
 
 class ResultSelectionViewComp extends React.Component<ClientProp> {
-    selectionRef: RefObject<HTMLInputElement> = React.createRef();
 
     render() {
-        return <Checkbox label={"Alles auswählen"} inputRef={this.selectionRef} onChange={() => {return this.onSelectionChange()}}/>
+        return <Checkbox label={"Alles auswählen"} onChange={(checked:boolean) => {return this.onSelectionChange(checked)}}/>
     }
 
-    async onSelectionChange() {
+    onSelectionChange = async (checked) => {
         const client = this.props.client;
-        const checked = this.selectionRef.current.checked;
         const result = await client.query({query: GET_PRODUCTS_QUERY});
 
         const updated_products = result.data.products.map((product => {
@@ -26,7 +23,7 @@ class ResultSelectionViewComp extends React.Component<ClientProp> {
             return product;
         }));
 
-        client.cache.writeData({data: {products: updated_products}});
+        await client.cache.writeData({data: {products: updated_products}});
         return true;
     }
 }

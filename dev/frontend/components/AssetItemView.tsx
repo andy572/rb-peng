@@ -1,5 +1,4 @@
 import * as React from 'react';
-import {RefObject} from "react";
 import {ApolloConsumer, graphql} from "react-apollo";
 import gql from "graphql-tag";
 
@@ -9,7 +8,7 @@ import {FlexContainer} from "./core/FlexContainer";
 import {Checkbox} from "./core/Checkbox";
 
 class AssetItemViewComp extends React.Component<AssetItemViewProps> {
-    inputRef: RefObject<HTMLInputElement> = React.createRef();
+    //inputRef: RefObject<HTMLInputElement> = React.createRef();
     render() {
         const style = {
             background:'url(https://picscdn.redblue.de/doi/'+this.props.asset.doi+'/fee_325_225_png) no-repeat center/contain',
@@ -18,6 +17,7 @@ class AssetItemViewComp extends React.Component<AssetItemViewProps> {
         };
 
         const checked = this.props.asset.checked;
+        console.log( "asset checked: ", checked );
 
         return <ApolloConsumer>
             { client => (
@@ -26,16 +26,24 @@ class AssetItemViewComp extends React.Component<AssetItemViewProps> {
                             <div style={style}/>
                         </div>
                         <FlexContainer direction={"row"} className={"rb-margin-top-5"}>
-                            <Checkbox label={this.props.asset.extension.toUpperCase()} checked={checked} inputRef={this.inputRef} onChange={() => {return this.onCheckedChange(client)}}/>
+                            <Checkbox
+                                style={{flexDirection:'row-reverse',flexGrow:1}}
+                                labelStyle={{'flex':1}}
+                                labelColor={"textSecondary"}
+                                label={this.props.asset.extension.toUpperCase()}
+                                checked={checked}
+                                onChange={(checked:boolean) => {return this.onCheckedChange(client, checked)}}
+                            />
                         </FlexContainer>
                     </FlexContainer>
             )}
         </ApolloConsumer>
     }
 
-    onCheckedChange = async (client) => {
-        const checked = this.inputRef.current.checked;
+    onCheckedChange = async (client, checked) => {
         const result = await client.query({query: GET_CACHED_PRODUCTS_QUERY});
+
+        console.log( "asset after click checked: ", checked );
 
         const updated_products = result.data.products.map((product => {
             if (product.articleNumber === this.props.articleNumber) {

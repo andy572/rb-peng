@@ -10,29 +10,29 @@ import {Checkbox} from "./core/Checkbox";
 class AssetItemViewComp extends React.Component<AssetItemViewProps> {
     render() {
         const style = {
-            background:'url(https://picscdn.redblue.de/doi/'+this.props.asset.doi+'/fee_325_225_png) no-repeat center/contain',
-            width:'105px',
-            height:'105px'
+            background:'url(https://picscdn.redblue.de/doi/'+this.props.asset.doi+'/fee_325_225_png) no-repeat center/contain'
         };
 
         const checked = this.props.asset.checked === true;
 
         return <ApolloConsumer>
             { client => (
-                    <FlexContainer direction={"column"} className={"rb-card-item"}>
+                    <FlexContainer direction={"column"} className={"rb-asset-item"}>
                         <div onClick={() => { return this.onItemClick(client)}} style={{cursor:'pointer',background:"url(/img/psbg.png) repeat"}}>
-                            <div style={style}/>
+                            <div className={"thumbnail"} style={style}>
+                                <div className={"rb-maximize"}>
+                                    <span className={"fa fa-arrows-alt"}/>
+                                </div>
+                            </div>
                         </div>
-                        <FlexContainer direction={"row"} className={"rb-margin-top-5"}>
-                            <Checkbox
-                                style={{flexDirection:'row-reverse',flexGrow:1}}
-                                labelStyle={{'flex':1}}
-                                labelColor={"textSecondary"}
-                                label={this.props.asset.extension.toUpperCase()}
-                                checked={checked}
-                                onChange={(checked:boolean) => {return this.onCheckedChange(client, checked)}}
-                            />
-                        </FlexContainer>
+                        <Checkbox
+                            className={"rb-flex-row-reverse rb-margin-top-5"}
+                            labelStyle={{'flex':1}}
+                            labelColor={"textSecondary"}
+                            label={this.props.asset.extension.toUpperCase()}
+                            checked={checked}
+                            onChange={(checked:boolean) => {return this.onCheckedChange(client, checked)}}
+                        />
                     </FlexContainer>
             )}
         </ApolloConsumer>

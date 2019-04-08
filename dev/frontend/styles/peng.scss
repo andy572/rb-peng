@@ -50,6 +50,9 @@ h1, h2, h3, h4, h5, h6 {
     &.rb-flex-row {
         flex-direction: row;
     }
+    &.rb-flex-row-reverse {
+        flex-flow: row-reverse;
+    }
     &.rb-flex-wrap {
         flex-wrap: wrap;
     }
@@ -93,15 +96,9 @@ h1, h2, h3, h4, h5, h6 {
     background-color: #fff;
     box-shadow: 0 2px 4px rgba(0,0,0, .2);
     height: fit-content;
-
-    .rb-card-item {
-        margin-top: 12px;
-        margin-right: 12px;
-    }
 }
 
 .rb-left-panel {
-    padding: 15px;
     background-color: #fff;
     box-shadow: 0 0 5px rgba(0,0,0, .2);
     margin-right: 15px;
@@ -116,6 +113,41 @@ h1, h2, h3, h4, h5, h6 {
     max-width: 200px;
     min-width: 200px;
     height: 100vh;
+}
+
+.rb-asset-item {
+    margin-top: 12px;
+    margin-right: 12px;
+    position: relative;
+    .thumbnail {
+        width: 105px;
+        height: 105px;
+        position: relative;
+    }
+    .rb-maximize {
+        position: absolute;
+        left: 0;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        visibility: hidden;
+        background-color: rgba(255, 255, 255, 0);
+        text-align: center;
+        color: rgba(0, 0, 0, 0);
+        transition: color 350ms, background-color 250ms;
+        .fa {
+            text-shadow: 0 0 5px rgba(255, 255, 255, .5);
+            font-size: 22pt;
+            line-height: 105px;
+            color: rgba(0, 0, 0, 1);
+        }
+    }
+    &:hover {
+        .rb-maximize {
+            background-color: rgba(255, 255, 255, .65);
+            visibility: visible;
+        }
+    }
 }
 
 #app-root {
@@ -191,13 +223,24 @@ h1, h2, h3, h4, h5, h6 {
     font-size: 12px;
     color: $icon-color;
     display: inline-block;
-    margin: 3px;
     border: 1px solid $control-input-border-color;
     border-radius: 3px;
     width: 14px;
     height: 14px;
     line-height: 14px;
     text-align: center;
+}
+.rb-checkbox-container {
+    &.rb-flex-row-reverse {
+        .rb-checkbox-icon {
+            margin-left: 10px;
+        }
+    }
+    &:not(.rb-flex-row-reverse) {
+        .rb-checkbox-icon {
+            margin-right: 10px;
+        }
+    }
 }
 .rb-control-input {
     outline: none;

@@ -73,7 +73,8 @@ export type CheckboxProps = {
     checked?:boolean,
     style?: object,
     labelStyle?:object,
-    labelColor?:"textPrimary"|"textSecondary"
+    labelColor?:"textPrimary"|"textSecondary",
+    className?:string
 }
 
 export type ButtonProps = {

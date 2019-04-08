@@ -53,9 +53,9 @@ export class SearchBar extends React.Component {
     render() {
         return <ApolloConsumer>
             {client => (
-                <FlexContainer direction="column" alignItems="center" alignContent={"stretch"}>
-                    <input type={"text"} className={"rb-control-input"} style={{flexGrow:1}} placeholder="Artikelnummer eingeben" ref={this.inputRef}/>
-                    <Button style={{marginTop: 8}} outlined buttonType={"danger"} onClick={() => this.startSearch(client)}>
+                <FlexContainer direction="column">
+                    <input type={"text"} className={"rb-flex rb-flex-grow rb-control-input"} placeholder="Artikelnummer eingeben" ref={this.inputRef}/>
+                    <Button style={{marginTop: 8, width:'fit-content'}} outlined buttonType={"danger"} onClick={() => this.startSearch(client)}>
                         <span className={"fa fa-search"}/>
                         <span>Suchen</span>
                     </Button>
@@ -66,13 +66,14 @@ export class SearchBar extends React.Component {
 
     startSearch = (client) => {
         let str = this.inputRef.current.value.replace(/\s+/g, ' ');
-        const search_values = str.replace(/\s/g, ',').replace(/[,]+/g, ',').split(/,/);
+        const splitted_values = str.replace(/\s+/g, ' ').replace(/\s/g, ',').replace(/[,]+/g, ',').split(/,/);
 
-        if (search_values.length === 0 || (search_values.length == 1 && search_values[0].length == 0))
+        const search_values = splitted_values.filter(value => {
+            return value.length > 0;
+        });
+
+        if (search_values.length === 0)
             return;
-        else {
-            console.log( search_values );
-        }
 
         client.query({query: GET_CACHED_SEARCH_VALUES})
             .then(current_search_values => {

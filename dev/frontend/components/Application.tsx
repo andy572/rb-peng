@@ -46,9 +46,11 @@ export class Application extends React.Component {
             <React.Fragment>
                 <FlexContainer direction="row" className={"main-container no-scroll"}>
                     <FlexContainer direction="column" className={"rb-left-panel"}>
-                        <div style={{background: "url(./assets/images/logo.png) no-repeat center / contain",width:200, height:20, marginBottom: 40, marginTop:15, alignSelf:"center"}}/>
-                        <SearchBar/>
-                        <SearchHistory/>
+                        <div style={{background: "url(./assets/images/logo.png) no-repeat center / contain",width:200, height:20, marginBottom: 10, marginTop:30, alignSelf:"center"}}/>
+                        <div style={{margin: 30}}>
+                            <SearchBar/>
+                            <SearchHistory/>
+                        </div>
                     </FlexContainer>
                     <ResultPage/>
                     <AssetToolbox client={client}/>

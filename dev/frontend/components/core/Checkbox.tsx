@@ -32,7 +32,13 @@ export class Checkbox extends React.Component<CheckboxProps> {
             labelClass = "rb-".concat(this.props.labelColor);
         }
 
-        return <FlexContainer style={{...this.props.style}} direction={"row"} alignItems={"center"}>
+        let containerClasses = ["rb-checkbox-container"];
+        if (this.props.className && this.props.className.length) {
+            const names = this.props.className.split(/\s/g);
+            containerClasses = containerClasses.concat(names);
+        }
+
+        return <FlexContainer style={{...this.props.style}} className={containerClasses.join(" ")} direction={"row"} alignItems={"center"}>
             <span className={classNames.join(" ")} onClick={() => {return this.onCheckboxClick() }}/>
             <Typography style={{...this.props.labelStyle}} className={labelClass}>{this.props.label}</Typography>
         </FlexContainer>

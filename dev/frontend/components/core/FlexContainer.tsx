@@ -1,14 +1,5 @@
 import * as React from "react";
-
-type FlexContainerProps = {
-    direction: string,
-    wrap?: boolean,
-    grow?: boolean,
-    style?: object,
-    alignItems?: string,
-    alignContent?: string,
-    className?: string
-}
+import {FlexContainerProps} from "../PropDefs";
 
 export class FlexContainer extends React.Component<FlexContainerProps> {
     render() {
@@ -32,8 +23,14 @@ export class FlexContainer extends React.Component<FlexContainerProps> {
         }
 
         const generatedClassNames = classNames.join(" ");
-        return <div className={generatedClassNames} style={{...this.props.style}}>
+        return <div className={generatedClassNames} style={{...this.props.style}} onClick={this.onClick}>
             {this.props.children}
         </div>
+    }
+
+    onClick = () => {
+        if (this.props.onClick) {
+            this.props.onClick();
+        }
     }
 }

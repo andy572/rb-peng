@@ -6,6 +6,7 @@ import "../helpers/StringArray";
 
 // UI
 import {FlexContainer} from "./core/FlexContainer";
+import {Button} from "./core/Button";
 
 const GET_PRODUCTS_QUERY = gql`
     query ProductList($product_id: [Int]!) {
@@ -52,9 +53,12 @@ export class SearchBar extends React.Component {
     render() {
         return <ApolloConsumer>
             {client => (
-                <FlexContainer direction="row" alignItems="center" alignContent={"stretch"}>
+                <FlexContainer direction="column" alignItems="center" alignContent={"stretch"}>
                     <input type={"text"} className={"rb-control-input"} style={{flexGrow:1}} placeholder="Artikelnummer eingeben" ref={this.inputRef}/>
-                    <div onClick={() => this.startSearch(client)}><span className="rb-control-icon fa fa-search"/></div>
+                    <Button style={{marginTop: 8}} outlined buttonType={"danger"} onClick={() => this.startSearch(client)}>
+                        <span className={"fa fa-search"}/>
+                        <span>Suchen</span>
+                    </Button>
                 </FlexContainer>
             )}
             </ApolloConsumer>

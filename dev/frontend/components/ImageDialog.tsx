@@ -1,16 +1,32 @@
 import * as React from "react";
-import {Dialog} from "./core/Dialog";
+import {Dialog, DialogContent, DialogControls, DialogTitle} from "./core/Dialog";
 import gql from "graphql-tag";
 import {ApolloConsumer, graphql} from "react-apollo";
 import {ImageDialogProps} from "./PropDefs";
+import {Typography} from "./core/Typography";
+import {CloseIcon} from "./core/CloseIcon";
+import {Button} from "./core/Button";
 
 class ImageDialogComponent extends React.Component<ImageDialogProps> {
     render() {
         return <ApolloConsumer>
             {client => (
                  <Dialog open={this.props.data.isProductDialogOpen}>
-                     {this.renderAsset()}
-                </Dialog>
+                     <DialogTitle>
+                         <Typography variant={"h3"}>
+                             Asset anzeigen
+                         </Typography>
+                         <Button align={"right"} className={"rb-no-padding"} onClick={() => {return this.onClose(client)}}>
+                             <CloseIcon/>
+                         </Button>
+                     </DialogTitle>
+                     <DialogContent>
+                        {this.renderAsset()}
+                     </DialogContent>
+                     <DialogControls>
+                         Controls
+                     </DialogControls>
+                 </Dialog>
             )}
         </ApolloConsumer>
     }

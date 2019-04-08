@@ -48,6 +48,17 @@ export type ClientProp = {
     client: any
 } & ChildDataProps;
 
+export type FlexContainerProps = {
+    direction: string,
+    wrap?: boolean,
+    grow?: boolean,
+    style?: object,
+    alignItems?: string,
+    alignContent?: string,
+    className?: string,
+    onClick?: any
+}
+
 export type TypographyProps = {
     variant?: "caption" | "subtitle1" | "subtitle2" | "body" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6",
     color?: "textSecondary" | "textPrimary" | "default",
@@ -63,4 +74,15 @@ export type CheckboxProps = {
     style?: object,
     labelStyle?:object,
     labelColor?:"textPrimary"|"textSecondary"
+}
+
+export type ButtonProps = {
+    style?: object,
+    onClick?: any,
+    className?: string,
+    buttonStyle?: "flat" | "outlined",
+    flat?: true,
+    outlined?: true,
+    buttonType?: "danger" | "success" | "primary",
+    align?: "left" | "center" | "right";
 }

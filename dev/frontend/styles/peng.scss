@@ -2,9 +2,9 @@ $fa-font-path: "~font-awesome/fonts";
 @import "~font-awesome/scss/font-awesome";
 
 
-$text-color-primary: #444;
+$text-color-primary: rgba(0, 0, 0, .8);
 $text-color-secondary: #999;
-$control-icon-color: #777;
+$icon-color: #777;
 $control-input-border-color: #777;
 
 html, body {
@@ -18,6 +18,7 @@ body {
     background-color: #f6f6f6;
     font-family: Arial, Verdana, Helvetica, sans-serif;
     font-size: 9pt;
+    color: $text-color-primary;
 }
 h1, h2, h3, h4, h5, h6 {
     padding: 5px 0 5px;
@@ -35,7 +36,9 @@ h1, h2, h3, h4, h5, h6 {
     min-height: 100%;
     padding: 10px;
 }
-
+.rb-no-padding {
+   padding: 0 !important;
+}
 .rb-flex {
     display: flex;
     &.rb-flex-grow {
@@ -52,6 +55,12 @@ h1, h2, h3, h4, h5, h6 {
     }
     &.rb-flex-align-center {
         align-items: center;
+    }
+    &.rb-flex-align-left {
+        align-items: flex-start;
+    }
+    &.rb-flex-align-right {
+        align-items: flex-end;
     }
     &.rb-flex-content-center {
         align-content: center;
@@ -114,7 +123,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .rb-textPrimary {
-    color: rgba(0, 0, 0, .8);
+    color: $text-color-primary;
 }
 
 .rb-textSecondary {
@@ -137,7 +146,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 .rb-h3 {
     font-size: 13pt;
-    font-weight: 200;
+    font-weight: 600;
     margin: 0;
     padding: 0;
 }
@@ -172,14 +181,15 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .rb-control-icon {
-    font-size: 14pt;
-    color: $control-icon-color;
+    font-size: 14pt !important;
+    color: $icon-color;
     display: inline-block;
     margin: 5px;
+    padding: 0;
 }
 .rb-checkbox-icon {
     font-size: 12px;
-    color: $control-icon-color;
+    color: $icon-color;
     display: inline-block;
     margin: 3px;
     border: 1px solid $control-input-border-color;
@@ -198,4 +208,77 @@ h1, h2, h3, h4, h5, h6 {
 .rb-page-content {
     padding: 20px;
     flex-grow: 1;
+}
+
+.rb-dialog {
+    width: fit-content;
+    height: fit-content;
+    margin: 0 auto;
+    margin-top: 150px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, .75);
+    opacity: 0;
+    transition: opacity 250ms;
+    .rb-dialog-title {
+        margin: -30px -30px 30px -30px;
+        padding: 15px;
+        background-color: #eee;
+        border-bottom: 1px solid #ddd;
+        border-top-left-radius: 5px;
+        border-top-right-radius: 5px;
+        align-items: center;
+        flex-grow: 1;
+    }
+    .rb-dialog-title > :first-child {
+        display: flex;
+        flex-grow: 1;
+    }
+    &.visible {
+        opacity: 1;
+    }
+}
+
+.rb-button {
+    cursor: pointer;
+    padding: 8px 25px;
+    font-weight: bold;
+    &.flat {
+        border-radius: 3px;
+        &.danger {
+            border-color: #df0000;
+            background-color: #df0000;
+            color: #fff;
+        }
+        &.success {
+            border-color: green;
+            background-color: green;
+            color: #fff;
+        }
+        &.primary {
+            border-color: royalblue;
+            background-color: royalblue;
+            color: #fff;
+        }
+    }
+    &.outlined {
+        border-radius: 3px;
+        border-width: 1px;
+        border-style: solid;
+        background: none;
+        &.danger {
+            border-color: #df0000;
+            color: #df0000;
+        }
+        &.success {
+            border-color: green;
+            color: green;
+        }
+        &.primary {
+            border-color: royalblue;
+            color: royalblue;
+        }
+    }
+    .fa {
+        font-size: inherit;
+        margin-right: 5px;
+    }
 }

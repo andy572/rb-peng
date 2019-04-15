@@ -325,3 +325,15 @@ h1, h2, h3, h4, h5, h6 {
         margin-right: 5px;
     }
 }
+
+
+.rb-search-reset {
+    padding: 15px 0 0 0;
+    margin-top: 15px;
+    border-top: 1px solid #ddd;
+    font-weight: normal;
+    color: #888;
+    &:hover {
+        color: #df0000;
+    }
+}

@@ -4,6 +4,7 @@ import gql from "graphql-tag";
 import {Typography} from "./core/Typography";
 import {SearchHistoryProps} from "./PropDefs";
 import {FlexContainer} from "./core/FlexContainer";
+import {Button} from "./core/Button";
 
 
 class SearchHistoryComponent extends React.Component<SearchHistoryProps> {
@@ -15,7 +16,12 @@ class SearchHistoryComponent extends React.Component<SearchHistoryProps> {
             {this.props.data.search.map(value => {
                 return <Typography variant={"subtitle2"}>{value}</Typography>
             })}
+            <Button align={"center"} className={"rb-search-reset"} onClick={this.onResetClick}><span className={"fa fa-close"}/>&nbsp;<span>Suche zurücksetzen</span></Button>
         </FlexContainer>;
+    }
+
+    onResetClick = () => {
+        this.props.client.writeData({data: {products: [], search: []}});
     }
 }
 

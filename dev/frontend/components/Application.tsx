@@ -49,11 +49,11 @@ export class Application extends React.Component {
                         <div style={{background: "url(./assets/images/logo.png) no-repeat center / contain",width:200, height:20, marginBottom: 10, marginTop:30, alignSelf:"center"}}/>
                         <div style={{margin: 30}}>
                             <SearchBar/>
-                            <SearchHistory/>
+                            <SearchHistory client={client}/>
                         </div>
                     </FlexContainer>
                     <ResultPage/>
-                    <AssetToolbox client={client}/>
+                    <AssetToolbox data={null} client={client}/>
                 </FlexContainer>
                 <ImageDialog/>
             </React.Fragment>

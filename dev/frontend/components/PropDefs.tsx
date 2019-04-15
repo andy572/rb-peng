@@ -39,6 +39,7 @@ export type ImageDialogProps = {
 } & ChildDataProps
 
 export type SearchHistoryProps = {
+    client?: any,
     data: {
         search: string[]
     }

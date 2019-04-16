@@ -38,6 +38,14 @@ export type ImageDialogProps = {
     }
 } & ChildDataProps
 
+export type DownloadDialogProps = {
+    client?: any,
+    data: {
+        isDownloadDialogOpen: boolean,
+        products: Product[]
+    }
+} & ChildDataProps
+
 export type SearchHistoryProps = {
     client?: any,
     data: {

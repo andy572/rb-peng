@@ -45,7 +45,7 @@ export class ProductView extends React.Component<{product:Product, products:Prod
             return product;
         }));
 
-        await client.cache.writeData({data: {products: updated_products}});
+        await client.writeData({data: {products: updated_products}});
         await this.setState({checked: checked});
 
         return true;

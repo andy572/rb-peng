@@ -12,9 +12,10 @@ import { ResultPage } from "./ResultPage";
 import { SearchBar } from "./SearchBar";
 import {SearchHistory} from "./SearchHistory";
 import {FlexContainer} from "./core/FlexContainer";
+import {AssetToolbox} from "./AssetToolbox";
+import {DownloadDialog} from "./DownloadDialog";
 
 import "../styles/peng.scss";
-import {AssetToolbox} from "./AssetToolbox";
 
 const cache = new InMemoryCache();
 const client = new ApolloClient({
@@ -27,6 +28,7 @@ const client = new ApolloClient({
                 products: [],
                 dialogImage: "",
                 isProductDialogOpen: false,
+                isDownloadDialogOpen: false,
                 imageSize: 2,
                 search: [],
                 loading: false,
@@ -56,6 +58,7 @@ export class Application extends React.Component {
                     <AssetToolbox data={null} client={client}/>
                 </FlexContainer>
                 <ImageDialog/>
+                <DownloadDialog/>
             </React.Fragment>
         </ApolloProvider>
     }

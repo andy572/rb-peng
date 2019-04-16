@@ -155,7 +155,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .rb-textPrimary {
-    color: $text-color-primary;
+    color: $text-color-primary !important;
 }
 
 .rb-textSecondary {
@@ -287,8 +287,8 @@ h1, h2, h3, h4, h5, h6 {
     &.flat {
         border-radius: 3px;
         &.danger {
-            border-color: #df0000;
-            background-color: #df0000;
+            border-color: #e30613;
+            background-color: #e30613;
             color: #fff;
         }
         &.success {
@@ -308,8 +308,8 @@ h1, h2, h3, h4, h5, h6 {
         border-style: solid;
         background: none;
         &.danger {
-            border-color: #df0000;
-            color: #df0000;
+            border-color: #e30613;
+            color: #e30613;
         }
         &.success {
             border-color: green;
@@ -327,12 +327,20 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 
-.rb-search-reset {
+.rb-icon-link {
     padding: 15px 0 0 0;
     margin-top: 15px;
     border-top: 1px solid #ddd;
     font-weight: normal;
     color: #888;
+    .fa {
+        margin-right: 10px;
+        width: 14px;
+        height: 14px;
+        font-size: 12px;
+        line-height: 14px;
+        text-align: center;
+    }
     &:hover {
         color: #df0000;
     }

@@ -1,5 +1,5 @@
 import * as React from "react";
-import {Dialog, DialogContent, DialogControls, DialogTitle} from "./core/Dialog";
+import {Dialog, DialogContent, DialogTitle} from "./core/Dialog";
 import gql from "graphql-tag";
 import {ApolloConsumer, graphql} from "react-apollo";
 import {ImageDialogProps} from "./PropDefs";
@@ -9,6 +9,9 @@ import {Button} from "./core/Button";
 
 class ImageDialogComponent extends React.Component<ImageDialogProps> {
     render() {
+        if (!this.props.data.isProductDialogOpen)
+            return null;
+        
         return <ApolloConsumer>
             {client => (
                  <Dialog open={this.props.data.isProductDialogOpen}>
@@ -23,9 +26,6 @@ class ImageDialogComponent extends React.Component<ImageDialogProps> {
                      <DialogContent>
                         {this.renderAsset()}
                      </DialogContent>
-                     <DialogControls>
-                         Controls
-                     </DialogControls>
                  </Dialog>
             )}
         </ApolloConsumer>

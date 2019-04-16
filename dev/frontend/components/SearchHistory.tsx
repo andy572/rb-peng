@@ -16,7 +16,7 @@ class SearchHistoryComponent extends React.Component<SearchHistoryProps> {
             {this.props.data.search.map(value => {
                 return <Typography variant={"subtitle2"}>{value}</Typography>
             })}
-            <Button align={"center"} className={"rb-search-reset"} onClick={this.onResetClick}><span className={"fa fa-close"}/>&nbsp;<span>Suche zurücksetzen</span></Button>
+            <Button align={"center"} className={"rb-icon-link"} onClick={this.onResetClick}><span className={"fa fa-close"}/><span>Suche zurücksetzen</span></Button>
         </FlexContainer>;
     }
 
